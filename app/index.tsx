@@ -1,10 +1,17 @@
-import { Text, View } from 'react-native';
-import Card from './components/Card';
+import { View, StyleSheet } from 'react-native';
+import Video from './components/Video';
 
 export default function Home() {
   return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Card />
+    <View>
+      <Video />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+  },
+});
