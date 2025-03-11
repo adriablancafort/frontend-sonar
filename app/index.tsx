@@ -1,19 +1,13 @@
-import React, { useState } from 'react';
-import { View, SafeAreaView, Text } from 'react-native';
-import ArtistCard from './components/Card';
-import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
+import React, { useState } from 'react'
+import { View, SafeAreaView, Text } from 'react-native'
+import ArtistCard from '@/app/components/Card'
+import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { 
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  runOnJS,
-  useAnimatedGestureHandler
-} from 'react-native-reanimated';
-
-type ContextType = {
-  startX: number;
-  startY: number;
-};
+  runOnJS
+} from 'react-native-reanimated'
 
 export default function ArtistsScreen() {
   const artistsData = [
@@ -61,12 +55,10 @@ export default function ArtistsScreen() {
   const rotation = useSharedValue(0);
   const cardScale = useSharedValue(1);
 
-  // Handle next card
   const nextCard = () => {
     if (currentIndex < artistsData.length - 1) {
       setCurrentIndex(currentIndex + 1);
       
-      // Reset values for the next card
       translateX.value = 0;
       translateY.value = 0;
       rotation.value = 0;
@@ -74,21 +66,13 @@ export default function ArtistsScreen() {
     }
   };
 
-  // Handle swipe gesture with proper typing
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (_, context: ContextType) => {
-      context.startX = translateX.value;
-      context.startY = translateY.value;
-    },
-    onActive: (event, context: ContextType) => {
-      translateX.value = context.startX + event.translationX;
-      translateY.value = context.startY + event.translationY;
-      
-      // Calculate rotation based on horizontal movement
-      rotation.value = (translateX.value / 10); 
-    },
-    onEnd: () => {
-      // Swipe threshold
+  const panGesture = Gesture.Pan()
+    .onUpdate((event) => {
+      translateX.value = event.translationX;
+      translateY.value = event.translationY;
+      rotation.value = (event.translationX / 10);
+    })
+    .onEnd(() => {
       const swipeThreshold = 100;
       
       if (Math.abs(translateX.value) > swipeThreshold) {
@@ -105,10 +89,8 @@ export default function ArtistsScreen() {
         translateY.value = withSpring(0);
         rotation.value = withSpring(0);
       }
-    }
-  });
+    });
 
-  // Animated styles for the card
   const cardStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -124,8 +106,8 @@ export default function ArtistsScreen() {
     <GestureHandlerRootView style={{ flex: 1 }}> 
       <SafeAreaView className="flex-1 bg-black">
         <View className="flex-1 justify-center items-center">
-          {currentIndex < artistsData.length ? (
-            <PanGestureHandler onGestureEvent={gestureHandler}>
+          {currentIndex < artistsData.length - 1 ? (
+            <GestureDetector gesture={panGesture}>
               <Animated.View className="w-full h-full" style={cardStyle}>
                 <ArtistCard 
                   artistName={artistsData[currentIndex].artistName}
@@ -134,7 +116,7 @@ export default function ArtistsScreen() {
                   genre={artistsData[currentIndex].genre}
                 />
               </Animated.View>
-            </PanGestureHandler>
+            </GestureDetector>
           ) : (
             <View className="flex-1 justify-center items-center">
               <Text className="text-white text-xl">No more artists</Text>
