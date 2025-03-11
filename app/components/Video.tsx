@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
-import { VideoView, useVideoPlayer } from 'expo-video';
+import React from 'react'
+import { StyleProp, ViewStyle } from 'react-native'
+import { VideoView, useVideoPlayer, VideoSource } from 'expo-video'
 
-const VideoPlayer = () => {
-  const videoSource = { uri: 'https://irjubpjnvgdhlyzigdpn.supabase.co/storage/v1/object/public/MySonar%20Videos/charlotte_de_white.mp4' };
-  const videoPlayer = useVideoPlayer(videoSource);
+interface VideoProps {
+  source: VideoSource;
+  style?: StyleProp<ViewStyle>;
+}
 
-  useEffect(() => {
-    if (videoPlayer) {
-      videoPlayer.play();
-    }
-  }, [videoPlayer]);
+const Video: React.FC<VideoProps> = ({ source, style }) => {
+  const videoPlayer = useVideoPlayer(source, player => {
+    player.loop = true;
+    player.play();
+  });
 
   return (
     <VideoView
@@ -18,16 +19,9 @@ const VideoPlayer = () => {
       nativeControls={false}
       allowsFullscreen={false}
       contentFit="cover"
-      style={styles.video}
+      style={style}
     />
   );
 };
 
-const styles = StyleSheet.create({
-  video: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-});
-
-export default VideoPlayer;
+export default Video;
