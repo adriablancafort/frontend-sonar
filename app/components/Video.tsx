@@ -16,7 +16,7 @@ const Video: React.FC<VideoProps> = ({ source, style }) => {
   return (
     <VideoView
       player={videoPlayer}
-      nativeControls={false}
+      nativeControls={true}
       allowsFullscreen={false}
       contentFit="cover"
       style={style}

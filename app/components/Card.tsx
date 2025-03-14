@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, View } from 'react-native'
-import { VideoSource } from 'expo-video'
 import Video from '@/app/components/Video'
 
 interface ArtistCardProps {

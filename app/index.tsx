@@ -4,32 +4,50 @@ import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-g
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, runOnJS, withTiming, WithTimingConfig, Easing } from 'react-native-reanimated'
 import ArtistCard from '@/app/components/Card'
 
-// Get screen dimensions for better animation calculations
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-// Animation config for smoother transitions
 const SWIPE_ANIMATION_CONFIG: WithTimingConfig = {
   duration: 400,
   easing: Easing.out(Easing.ease)
 };
 
-export default function ArtistsScreen() {
-  const [artists, setArtists] = useState([]);
+type SwipeResult = {
+  id: number | string;
+  swipe_right: boolean;
+};
+
+export default function activityScreen() {
+  const [activity, setActivity] = useState([]);
   const [loading, setLoading] = useState(true);
-  
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [swipeResults, setSwipeResults] = useState<SwipeResult[]>([]);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const rotation = useSharedValue(0);
   const cardScale = useSharedValue(1);
-  const [isAnimating, setIsAnimating] = useState(false);
 
-  const fetchArtists = async () => {
+  const submitSwipes = async () => {
+    try {
+      const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+      await fetch(`${apiUrl}/activity`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(swipeResults),
+      });
+    } catch (error) {
+      console.error('Error posting activity data:', error);
+    }
+  };
+
+  const fetchActivities = async () => {
     try {
       const apiUrl = process.env.EXPO_PUBLIC_API_URL;
       const response = await fetch(`${apiUrl}/activities`);      
       const data = await response.json();
-      setArtists(data);
+      setActivity(data);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -37,20 +55,37 @@ export default function ArtistsScreen() {
   };
 
   useEffect(() => {
-    fetchArtists();
+    fetchActivities();
   }, []);
 
-  const nextCard = useCallback(() => {
-    if (currentIndex < artists.length - 1) {
+  // Submit swipe results when user has swiped all cards
+  useEffect(() => {
+    if (activity.length > 0 && currentIndex === activity.length && swipeResults.length > 0) {
+      submitSwipes();
+    }
+  }, [currentIndex, activity.length]);
+
+  const nextCard = useCallback((swipedRight) => {
+    // Record the swipe result for the current card
+    if (currentIndex < activity.length) {
+      setSwipeResults(prev => [
+        ...prev, 
+        {
+          id: activity[currentIndex].id,
+          swipe_right: swipedRight
+        }
+      ]);
+    }
+    
+    if (currentIndex < activity.length) {
       setCurrentIndex(currentIndex + 1);
-      
       translateX.value = 0;
       translateY.value = 0;
       rotation.value = 0;
       cardScale.value = 1;
     }
     setIsAnimating(false);
-  }, [currentIndex, artists.length]);
+  }, [currentIndex, activity.length]);
 
   const panGesture = Gesture.Pan()
     .enabled(!isAnimating)
@@ -85,8 +120,8 @@ export default function ArtistsScreen() {
           SWIPE_ANIMATION_CONFIG,
           (finished) => {
             if (finished) {
-              // Only advance to next card after animation completes
-              runOnJS(nextCard)();
+              // Pass the swipe direction to nextCard
+              runOnJS(nextCard)(isSwipedRight);
             }
           }
         );
@@ -115,19 +150,19 @@ export default function ArtistsScreen() {
         <View className="flex-1 justify-center items-center">
           {loading ? (
             <ActivityIndicator size="large" color="#ffffff" />
-          ) : currentIndex < artists.length ? (
+          ) : currentIndex < activity.length ? (
             <GestureDetector gesture={panGesture}>
               <Animated.View className="w-full h-full" style={cardStyle}>
                 <ArtistCard
-                  artistName={artists[currentIndex].title}
-                  videoUri={artists[currentIndex].video_uri}
-                  description={artists[currentIndex].description}
+                  artistName={activity[currentIndex].title}
+                  videoUri={activity[currentIndex].video_uri}
+                  description={activity[currentIndex].description}
                 />
               </Animated.View>
             </GestureDetector>
           ) : (
             <View className="flex-1 justify-center items-center">
-              <Text className="text-white text-xl">No more artists</Text>
+              <Text className="text-white text-xl">No more activities</Text>
             </View>
           )}
         </View>
