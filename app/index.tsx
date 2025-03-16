@@ -30,7 +30,7 @@ export default function activityScreen() {
   const submitSwipes = async () => {
     try {
       const apiUrl = process.env.EXPO_PUBLIC_API_URL;
-      await fetch(`${apiUrl}/activity`, {
+      await fetch(`${apiUrl}/activities`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
