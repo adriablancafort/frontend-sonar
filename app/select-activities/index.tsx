@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { View, SafeAreaView, Text, Dimensions, ActivityIndicator } from 'react-native'
 import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, runOnJS, withTiming, WithTimingConfig, Easing } from 'react-native-reanimated'
-import ArtistCard from '@/app/components/Card'
+import VideoCard from '@/app/components/VideoCard'
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -153,7 +153,7 @@ export default function activityScreen() {
           ) : currentIndex < activity.length ? (
             <GestureDetector gesture={panGesture}>
               <Animated.View className="w-full h-full" style={cardStyle}>
-                <ArtistCard
+                <VideoCard
                   artistName={activity[currentIndex].title}
                   videoUri={activity[currentIndex].video_uri}
                   description={activity[currentIndex].description}
