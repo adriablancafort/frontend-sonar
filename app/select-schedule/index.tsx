@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Link } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 
-export default function StartScreen() {
+export default function SelectSchedule() {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   
   const scheduleOptions = [
