@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
 export default function StartScreen() {
   return (
@@ -14,8 +15,9 @@ export default function StartScreen() {
       </Text>
 
       <Link href="/select-schedule" asChild>
-        <TouchableOpacity className="bg-yellow-400 py-2 px-8 rounded-full">
-          <Text className="text-white font-semibold text-lg">Start Now</Text>
+        <TouchableOpacity className="bg-yellow-400 py-2 pl-6 pr-3 rounded-full flex-row items-center">
+          <Text className=" font-semibold text-lg mr-1">Start Now</Text>
+          <Feather name="chevron-right" size={20} color="black" />
         </TouchableOpacity>
       </Link>
     </View>
