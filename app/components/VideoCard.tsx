@@ -10,7 +10,7 @@ interface ArtistCardProps {
   genre: string;
 }
 
-const ArtistCard = ({ artistName, videoUri, description, genre }: ArtistCardProps) => {
+export default function ArtistCard ({ artistName, videoUri, description, genre }: ArtistCardProps) {
   return (
     <View className="relative w-full h-full rounded-3xl overflow-hidden">
       <Video 
@@ -40,5 +40,3 @@ const ArtistCard = ({ artistName, videoUri, description, genre }: ArtistCardProp
     </View>
   )
 }
-
-export default ArtistCard

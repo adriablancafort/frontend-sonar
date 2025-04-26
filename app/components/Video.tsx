@@ -7,7 +7,7 @@ interface VideoProps {
   style?: StyleProp<ViewStyle>;
 }
 
-const Video: React.FC<VideoProps> = ({ source, style }) => {
+export default function Video({ source, style }: VideoProps) {
   const videoPlayer = useVideoPlayer(source, player => {
     player.loop = true;
     player.play();
@@ -22,6 +22,4 @@ const Video: React.FC<VideoProps> = ({ source, style }) => {
       style={style}
     />
   );
-};
-
-export default Video;
+}
