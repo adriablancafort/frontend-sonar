@@ -1,12 +1,52 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import { Link } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
-export default function SelectShedule() {
+export default function StartScreen() {
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  
+  const scheduleOptions = [
+    { id: '1', day: 'Thursday', date: 'June 12' },
+    { id: '2', day: 'Friday', date: 'June 13' },
+    { id: '3', day: 'Saturday', date: 'June 14' },
+  ];
+
+  const handleSelectDay = (dayId: string) => {
+    setSelectedDay(dayId);
+  };
+
   return (
-    <View>
-      <Text>Select Schedule</Text>
-      <Link href="/select-tags">Next</Link>
+    <View className="flex-1 justify-center items-center px-14">
+      <Text className="text-white text-3xl font-bold mb-6">
+        When will you assist?
+      </Text>
+      
+      <View className="mb-12 w-full">
+        {scheduleOptions.map((option, index) => (
+          <TouchableOpacity
+            key={option.id}
+            className={`w-full h-16 rounded-lg justify-center items-center ${
+              selectedDay === option.id ? 'bg-yellow-400' : 'bg-gray-800'
+            } ${index < scheduleOptions.length - 1 ? 'mb-4' : ''}`}
+            onPress={() => handleSelectDay(option.id)}
+          >
+            <Text className={`font-bold ${selectedDay === option.id ? 'text-black' : 'text-white'}`}>
+              {option.day}
+            </Text>
+            <Text className={`mt-1 ${selectedDay === option.id ? 'text-black' : 'text-gray-400'}`}>
+              {option.date}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      <Link href="/select-tags" asChild>
+        <TouchableOpacity className="bg-yellow-400 py-2 pl-6 pr-3 rounded-full flex-row items-center">
+          <Text className="font-semibold text-lg mr-1">Next</Text>
+          <Feather name="chevron-right" size={20} color="black" />
+        </TouchableOpacity>
+      </Link>
     </View>
   )
 }
