@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { View, SafeAreaView, Text, Dimensions, ActivityIndicator } from 'react-native'
+import { View, Text, Dimensions, ActivityIndicator } from 'react-native'
 import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, runOnJS, withTiming, WithTimingConfig, Easing } from 'react-native-reanimated'
 import VideoCard from '@/app/components/VideoCard'
+import { Redirect } from 'expo-router';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -16,7 +17,7 @@ type SwipeResult = {
   swipe_right: boolean;
 };
 
-export default function activityScreen() {
+export default function SelectActivities() {
   const [activity, setActivity] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -146,27 +147,23 @@ export default function activityScreen() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}> 
-      <SafeAreaView className="flex-1 bg-black">
-        <View className="flex-1 justify-center items-center">
-          {loading ? (
-            <ActivityIndicator size="large" color="#ffffff" />
-          ) : currentIndex < activity.length ? (
-            <GestureDetector gesture={panGesture}>
-              <Animated.View className="w-full h-full" style={cardStyle}>
-                <VideoCard
-                  artistName={activity[currentIndex].title}
-                  videoUri={activity[currentIndex].video_uri}
-                  description={activity[currentIndex].description}
-                />
-              </Animated.View>
-            </GestureDetector>
-          ) : (
-            <View className="flex-1 justify-center items-center">
-              <Text className="text-white text-xl">No more activities</Text>
-            </View>
-          )}
-        </View>
-      </SafeAreaView>
+      <View className="flex-1 justify-center items-center">
+        {loading ? (
+          <ActivityIndicator size="large" color="#ffffff" />
+        ) : currentIndex < activity.length ? (
+          <GestureDetector gesture={panGesture}>
+            <Animated.View className="w-full h-full" style={cardStyle}>
+              <VideoCard
+                artistName={activity[currentIndex].title}
+                videoUri={activity[currentIndex].video_uri}
+                description={activity[currentIndex].description}
+              />
+            </Animated.View>
+          </GestureDetector>
+        ) : (
+          <Redirect href="/view-results" />
+        )}
+      </View>
     </GestureHandlerRootView>
   );
 }
