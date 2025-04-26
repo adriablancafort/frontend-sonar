@@ -4,7 +4,7 @@ import { Link } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 
 export default function SelectSchedule() {
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
   
   const scheduleOptions = [
     { id: '1', day: 'Thursday', date: 'June 12' },
@@ -12,13 +12,17 @@ export default function SelectSchedule() {
     { id: '3', day: 'Saturday', date: 'June 14' },
   ];
 
-  const handleSelectDay = (dayId: string) => {
-    setSelectedDay(dayId);
+  const toggleDay = (dayId: string) => {
+    setSelectedDays(prev => 
+      prev.includes(dayId)
+        ? prev.filter(id => id !== dayId)
+        : [...prev, dayId]
+    );
   };
 
   return (
     <View className="flex-1 justify-center items-center px-14">
-      <Text className="text-white text-3xl font-bold mb-6">
+      <Text className="text-white text-3xl font-bold mb-14">
         When will you assist?
       </Text>
       
@@ -27,14 +31,14 @@ export default function SelectSchedule() {
           <TouchableOpacity
             key={option.id}
             className={`w-full h-16 rounded-lg justify-center items-center ${
-              selectedDay === option.id ? 'bg-yellow-400' : 'bg-gray-800'
+              selectedDays.includes(option.id) ? 'bg-yellow-400' : 'bg-gray-800'
             } ${index < scheduleOptions.length - 1 ? 'mb-4' : ''}`}
-            onPress={() => handleSelectDay(option.id)}
+            onPress={() => toggleDay(option.id)}
           >
-            <Text className={`font-bold ${selectedDay === option.id ? 'text-black' : 'text-white'}`}>
+            <Text className={`font-bold ${selectedDays.includes(option.id) ? 'text-black' : 'text-white'}`}>
               {option.day}
             </Text>
-            <Text className={`mt-1 ${selectedDay === option.id ? 'text-black' : 'text-gray-400'}`}>
+            <Text className={`mt-1 ${selectedDays.includes(option.id) ? 'text-black' : 'text-gray-400'}`}>
               {option.date}
             </Text>
           </TouchableOpacity>
@@ -42,9 +46,16 @@ export default function SelectSchedule() {
       </View>
 
       <Link href="/select-tags" asChild>
-        <TouchableOpacity className="bg-yellow-400 py-2 pl-6 pr-3 rounded-full flex-row items-center">
-          <Text className="font-semibold text-lg mr-1">Next</Text>
-          <Feather name="chevron-right" size={20} color="black" />
+        <TouchableOpacity 
+          className={`py-2 pl-6 pr-3 rounded-full flex-row items-center ${
+            selectedDays.length > 0 ? 'bg-yellow-400' : 'bg-gray-600'
+          }`}
+          disabled={selectedDays.length === 0}
+        >
+          <Text className={`font-semibold text-lg mr-1 ${
+            selectedDays.length > 0 ? 'text-black' : 'text-gray-400'
+          }`}>Next</Text>
+          <Feather name="chevron-right" size={20} color={selectedDays.length > 0 ? 'black' : '#777'} />
         </TouchableOpacity>
       </Link>
     </View>
