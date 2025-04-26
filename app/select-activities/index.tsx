@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { View, Dimensions, ActivityIndicator } from 'react-native'
+import { Dimensions, ActivityIndicator } from 'react-native'
 import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler'
-import Animated, { useAnimatedStyle, useSharedValue, withSpring, runOnJS, withTiming, WithTimingConfig, Easing } from 'react-native-reanimated'
-import VideoCard from '@/app/components/VideoCard'
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, runOnJS, withTiming, WithTimingConfig, Easing, withSequence } from 'react-native-reanimated'
 import { Redirect } from 'expo-router';
+import VideoCard from '@/app/components/VideoCard'
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -23,6 +23,7 @@ export default function SelectActivities() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [swipeResults, setSwipeResults] = useState<SwipeResult[]>([]);
+  const [hasPlayedAnimation, setHasPlayedAnimation] = useState(false);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const rotation = useSharedValue(0);
@@ -65,6 +66,31 @@ export default function SelectActivities() {
       submitSwipes();
     }
   }, [currentIndex, activity.length]);
+
+  // Swipe hint animation
+  useEffect(() => {
+    if (!loading && activity.length > 0 && !hasPlayedAnimation) {
+      setHasPlayedAnimation(true);
+      
+      setTimeout(() => {
+        setIsAnimating(true);
+        
+        translateX.value = withSequence(
+          withTiming(80, { duration: 700, easing: Easing.inOut(Easing.quad) }),
+          withTiming(-80, { duration: 1400, easing: Easing.inOut(Easing.quad) }),
+          withSpring(0, { damping: 15 }, () => {
+            runOnJS(setIsAnimating)(false);
+          })
+        );
+        
+        rotation.value = withSequence(
+          withTiming(3, { duration: 700, easing: Easing.inOut(Easing.quad) }),
+          withTiming(-3, { duration: 1400, easing: Easing.inOut(Easing.quad) }),
+          withSpring(0, { damping: 15 })
+        );
+      }, 3000);
+    }
+  }, [loading, activity, hasPlayedAnimation]);
 
   const nextCard = useCallback((swipedRight) => {
     // Record the swipe result for the current card
@@ -147,24 +173,22 @@ export default function SelectActivities() {
 
   return (
     <GestureHandlerRootView> 
-      <View className="flex-1 justify-center items-center">
-        {loading ? (
-          <ActivityIndicator size="large" color="#ffffff" />
-        ) : currentIndex < activity.length ? (
-          <GestureDetector gesture={panGesture}>
-            <Animated.View className="w-full h-full" style={cardStyle}>
-              <VideoCard
-                artistName={activity[currentIndex].title}
-                videoUri={activity[currentIndex].video_uri}
-                description={activity[currentIndex].description}
-                genre={"Live"}
-              />
-            </Animated.View>
-          </GestureDetector>
-        ) : (
-          <Redirect href="/view-results" />
-        )}
-      </View>
+      {loading ? (
+        <ActivityIndicator size="large" color="#ffffff" />
+      ) : currentIndex < activity.length ? (
+        <GestureDetector gesture={panGesture}>
+          <Animated.View className="w-full h-full" style={cardStyle}>
+            <VideoCard
+              artistName={activity[currentIndex].title}
+              videoUri={activity[currentIndex].video_uri}
+              description={activity[currentIndex].description}
+              genre={"Live"}
+            />
+          </Animated.View>
+        </GestureDetector>
+      ) : (
+        <Redirect href="/view-results" />
+      )}
     </GestureHandlerRootView>
   );
 }

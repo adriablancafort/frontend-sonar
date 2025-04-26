@@ -18,7 +18,7 @@ export default function ArtistCard ({ artistName, videoUri, description, genre }
         style={{ position: 'absolute', width: '100%', height: '100%' }}
       />
       
-      <View className="absolute bottom-0 left-0 right-0 py-14 px-6">
+      <View className="absolute bottom-0 left-0 right-0 pb-14 px-6">
         <LinearGradient
           colors={[
             'rgba(0,0,0,0)',
