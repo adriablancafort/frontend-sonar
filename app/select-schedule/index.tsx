@@ -47,15 +47,11 @@ export default function SelectSchedule() {
 
       <Link href="/select-tags" asChild>
         <TouchableOpacity 
-          className={`py-2 pl-6 pr-3 rounded-full flex-row items-center ${
-            selectedDays.length > 0 ? 'bg-yellow-400' : 'bg-gray-600'
-          }`}
+          className="py-2 pl-6 pr-3 rounded-full flex-row items-center bg-yellow-400 disabled:bg-gray-400"
           disabled={selectedDays.length === 0}
         >
-          <Text className={`font-semibold text-lg mr-1 ${
-            selectedDays.length > 0 ? 'text-black' : 'text-gray-400'
-          }`}>Next</Text>
-          <Feather name="chevron-right" size={20} color={selectedDays.length > 0 ? 'black' : '#777'} />
+          <Text className="font-semibold text-lg mr-1 text-black disabled:text-gray-400">Next</Text>
+          <Feather name="chevron-right" size={20} color="black" />
         </TouchableOpacity>
       </Link>
     </View>

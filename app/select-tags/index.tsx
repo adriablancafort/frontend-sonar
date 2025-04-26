@@ -57,8 +57,11 @@ export default function SelectTags() {
       </View>
 
       <Link href="/select-activities" asChild>
-        <TouchableOpacity className="bg-yellow-400 py-2 pl-6 pr-3 rounded-full flex-row items-center">
-          <Text className="font-semibold text-lg mr-1">Next</Text>
+        <TouchableOpacity 
+          className="py-2 pl-6 pr-3 rounded-full flex-row items-center bg-yellow-400 disabled:bg-gray-600"
+          disabled={selectedGenres.length === 0}
+        >
+          <Text className="font-semibold text-lg mr-1 text-black disabled:text-gray-400">Next</Text>
           <Feather name="chevron-right" size={20} color="black" />
         </TouchableOpacity>
       </Link>
