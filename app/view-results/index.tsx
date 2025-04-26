@@ -1,6 +1,7 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import ResultsCard from '@/app/components/ResultsCard';
+import { Link } from 'expo-router';
 
 export default function ViewResults() {
   const mockData = [
@@ -27,15 +28,23 @@ export default function ViewResults() {
   ];
 
   return (
-    <ScrollView className="flex-1 bg-gray-100 p-4">
-      {mockData.map((activity, index) => (
-        <ResultsCard
-          key={index}
-          title={activity.title}
-          description={activity.description}
-          schedule={activity.schedule}
-        />
-      ))}
-    </ScrollView>
+    <View className="flex-1 bg-black items-center">
+      <ScrollView className="flex-1 px-4 pt-24">
+        {mockData.map((activity, index) => (
+          <ResultsCard
+            key={index}
+            title={activity.title}
+            description={activity.description}
+            schedule={activity.schedule}
+          />
+        ))}
+      </ScrollView>
+      
+      <Link href="/" asChild>
+        <TouchableOpacity className="bg-yellow-400 py-2 px-6 mb-20 rounded-full flex-row items-center">
+          <Text className="font-semibold text-lg">Start Again</Text>
+        </TouchableOpacity>
+      </Link>
+    </View>
   );
 }
