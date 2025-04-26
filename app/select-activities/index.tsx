@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { View, Text, Dimensions, ActivityIndicator } from 'react-native'
+import { View, Dimensions, ActivityIndicator } from 'react-native'
 import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, runOnJS, withTiming, WithTimingConfig, Easing } from 'react-native-reanimated'
 import VideoCard from '@/app/components/VideoCard'
@@ -146,7 +146,7 @@ export default function SelectActivities() {
   });
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}> 
+    <GestureHandlerRootView> 
       <View className="flex-1 justify-center items-center">
         {loading ? (
           <ActivityIndicator size="large" color="#ffffff" />
@@ -157,6 +157,7 @@ export default function SelectActivities() {
                 artistName={activity[currentIndex].title}
                 videoUri={activity[currentIndex].video_uri}
                 description={activity[currentIndex].description}
+                genre={"Live"}
               />
             </Animated.View>
           </GestureDetector>
