@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import ResultsCard from '@/app/components/ResultsCard';
 
-const ViewResults = () => {
+export default function ViewResults() {
   const mockData = [
     {
       title: 'Yoga Class',
@@ -38,6 +38,4 @@ const ViewResults = () => {
       ))}
     </ScrollView>
   );
-};
-
-export default ViewResults;
+}
