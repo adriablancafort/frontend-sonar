@@ -8,7 +8,7 @@ export default function StartScreen() {
   const router = useRouter();
   
   const handleStartQuiz = async () => {
-      // await startQuiz();
+      await startQuiz();
       router.push('/select-schedule');
   };
 

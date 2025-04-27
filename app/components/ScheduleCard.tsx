@@ -2,14 +2,14 @@ import React, { useRef } from 'react';
 import { Text, Pressable, Animated } from 'react-native';
 
 interface ScheduleCardProps {
-  day: string;
+  title: string;
   date: string;
   isSelected?: boolean;
   onPress?: () => void;
 }
 
 export default function ScheduleCard({ 
-  day, 
+  title, 
   date,
   isSelected = false, 
   onPress 
@@ -48,7 +48,7 @@ export default function ScheduleCard({
             isSelected ? 'text-black' : 'text-white'
           }`}
         >
-          {day}
+          {title}
         </Text>
         <Text 
           className={`mt-1 ${
