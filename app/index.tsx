@@ -1,9 +1,17 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
+import { getQuizId } from '@/app/lib/api';
 
 export default function StartScreen() {
+  const router = useRouter();
+  
+  const handleStartQuiz = async () => {
+      await getQuizId();
+      router.push('/select-schedule');
+  };
+
   return (
     <View className="flex-1 justify-center items-center px-14">
       <Image 
@@ -17,15 +25,16 @@ export default function StartScreen() {
       </Text>
       
       <Text className="text-center text-gray-300 text-lg mb-14">
-        Complete a short interactive quiz to get a personalized schedule for Sónar 2025 tailored to your preferences!
+        Complete a short interactive quiz to get a personalized schedule for Sónar Festival 2025 tailored to your preferences!
       </Text>
 
-      <Link href="/select-schedule" asChild>
-        <TouchableOpacity className="bg-yellow-400 py-2 pl-6 pr-3 rounded-full flex-row items-center">
-          <Text className=" font-semibold text-lg mr-1">Start Now</Text>
-          <Feather name="chevron-right" size={20} color="black" />
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity 
+        className="bg-yellow-400 py-2 pl-6 pr-3 rounded-full flex-row items-center"
+        onPress={handleStartQuiz}
+      >
+        <Text className="font-semibold text-lg mr-1">Start Now</Text>
+        <Feather name="chevron-right" size={20} color="black" />
+      </TouchableOpacity>
     </View>
   )
 }
