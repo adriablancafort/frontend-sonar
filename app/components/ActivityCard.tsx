@@ -4,13 +4,13 @@ import Video from '@/app/components/Video'
 import { LinearGradient } from 'expo-linear-gradient'
 
 interface ActivityCardProps {
-  activityTitle: string;
-  videoUri: string;
+  title: string;
   description: string;
+  videoUri: string;
   genre: string;
 }
 
-export default function ActivityCard ({ activityTitle, videoUri, description, genre }: ActivityCardProps) {
+export default function ActivityCard ({ title, description, videoUri, genre }: ActivityCardProps) {
   return (
     <View className="relative w-full h-full rounded-3xl overflow-hidden">
       <Video 
@@ -29,7 +29,7 @@ export default function ActivityCard ({ activityTitle, videoUri, description, ge
           style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
         />
         
-        <Text className="text-white text-3xl mb-3 font-bold">{activityTitle}</Text>
+        <Text className="text-white text-3xl mb-3 font-bold">{title}</Text>
         
         <Text className="text-gray-300 mb-4 leading-6 text-lg">{description}</Text>
 

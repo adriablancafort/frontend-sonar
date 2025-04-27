@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { Dimensions, ActivityIndicator } from 'react-native'
+import { View, Dimensions, ActivityIndicator } from 'react-native'
+import { useRouter } from 'expo-router';
 import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, runOnJS, withTiming, WithTimingConfig, Easing, withSequence } from 'react-native-reanimated'
-import { Redirect } from 'expo-router';
 import ActivityCard from '@/app/components/ActivityCard'
+import { Activity } from '@/app/lib/types'
+import { getActivities, submitActivityResults } from '@/app/lib/api'
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -12,64 +14,45 @@ const SWIPE_ANIMATION_CONFIG: WithTimingConfig = {
   easing: Easing.out(Easing.ease)
 };
 
-type SwipeResult = {
-  id: number | string;
-  swipe_right: boolean;
-};
-
 export default function SelectActivities() {
-  const [activity, setActivity] = useState([]);
+  const router = useRouter();
+  
+  const [activities, setActivities] = useState<Activity[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [swipeResults, setSwipeResults] = useState<SwipeResult[]>([]);
+  const [acceptedIds, setAcceptedIds] = useState<number[]>([]);
+  const [rejectedIds, setRejectedIds] = useState<number[]>([]);
   const [hasPlayedAnimation, setHasPlayedAnimation] = useState(false);
+  
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const rotation = useSharedValue(0);
   const cardScale = useSharedValue(1);
 
-  const submitSwipes = async () => {
-    try {
-      const apiUrl = process.env.EXPO_PUBLIC_API_URL;
-      await fetch(`${apiUrl}/activities`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(swipeResults),
-      });
-    } catch (error) {
-      console.error('Error posting activity data:', error);
-    }
-  };
-
-  const fetchActivities = async () => {
-    try {
-      const apiUrl = process.env.EXPO_PUBLIC_API_URL;
-      const response = await fetch(`${apiUrl}/activities`);      
-      const data = await response.json();
-      setActivity(data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
+  // Fetch activities data on component mount
   useEffect(() => {
-    fetchActivities();
+    (async () => {
+      const data = await getActivities();
+      setActivities(data);
+      setLoading(false);
+    })();
   }, []);
 
-  // Submit swipe results when user has swiped all cards
+  // Submit activity results when user has swiped all cards
   useEffect(() => {
-    if (activity.length > 0 && currentIndex === activity.length && swipeResults.length > 0) {
-      submitSwipes();
+    if (activities.length > 0 && currentIndex === activities.length && 
+        (acceptedIds.length > 0 || rejectedIds.length > 0)) {
+      (async () => {
+        await submitActivityResults(acceptedIds, rejectedIds);
+        router.push('/view-results');
+      })();
     }
-  }, [currentIndex, activity.length]);
+  }, [currentIndex, activities.length, acceptedIds, rejectedIds, router]);
 
   // Swipe hint animation
   useEffect(() => {
-    if (!loading && activity.length > 0 && !hasPlayedAnimation) {
+    if (!loading && activities.length > 0 && !hasPlayedAnimation) {
       setHasPlayedAnimation(true);
       
       setTimeout(() => {
@@ -90,21 +73,20 @@ export default function SelectActivities() {
         );
       }, 3000);
     }
-  }, [loading, activity, hasPlayedAnimation]);
+  }, [loading, activities, hasPlayedAnimation]);
 
-  const nextCard = useCallback((swipedRight) => {
+  const nextCard = useCallback((swipedRight: boolean) => {
     // Record the swipe result for the current card
-    if (currentIndex < activity.length) {
-      setSwipeResults(prev => [
-        ...prev, 
-        {
-          id: activity[currentIndex].id,
-          swipe_right: swipedRight
-        }
-      ]);
+    if (currentIndex < activities.length) {
+      const activityId = activities[currentIndex].id;
+      if (swipedRight) {
+        setAcceptedIds(prev => [...prev, activityId]);
+      } else {
+        setRejectedIds(prev => [...prev, activityId]);
+      }
     }
     
-    if (currentIndex < activity.length) {
+    if (currentIndex < activities.length) {
       setCurrentIndex(currentIndex + 1);
       translateX.value = 0;
       translateY.value = 0;
@@ -112,7 +94,7 @@ export default function SelectActivities() {
       cardScale.value = 1;
     }
     setIsAnimating(false);
-  }, [currentIndex, activity.length]);
+  }, [currentIndex, activities]);
 
   const panGesture = Gesture.Pan()
     .enabled(!isAnimating)
@@ -172,22 +154,20 @@ export default function SelectActivities() {
   });
 
   return (
-    <GestureHandlerRootView> 
-      {loading ? (
-        <ActivityIndicator size="large" color="#ffffff" />
-      ) : currentIndex < activity.length ? (
+    <GestureHandlerRootView className="flex-1 justify-center items-center"> 
+      {loading || currentIndex === activities.length ? (
+        <ActivityIndicator size="small" color="#ffffff" />
+      ) : (
         <GestureDetector gesture={panGesture}>
           <Animated.View className="w-full h-full" style={cardStyle}>
             <ActivityCard
-              activityTitle={activity[currentIndex].title}
-              videoUri={activity[currentIndex].video_uri}
-              description={activity[currentIndex].description}
+              title={activities[currentIndex].title}
+              description={activities[currentIndex].description}
+              videoUri={activities[currentIndex].video_uri}
               genre={"Live"}
             />
           </Animated.View>
         </GestureDetector>
-      ) : (
-        <Redirect href="/view-results" />
       )}
     </GestureHandlerRootView>
   );

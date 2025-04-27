@@ -1,5 +1,5 @@
 import { readFromStorage, writeToStorage } from '@/app/lib/storage';
-import { ScheduleOption, TagOption } from '@/app/lib/types';
+import { ScheduleOption, TagOption, Activity } from '@/app/lib/types';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 const QUIZ_ID_KEY = 'quiz_id';
@@ -56,6 +56,17 @@ export async function getTagOptions(): Promise<TagOption[]> {
 export async function submitTagOptions(selectedIds: number[]): Promise<{ status: string }> {
     return await submitWithQuizId<{ status: string }>('/tags', {
         selected_ids: selectedIds
+    });
+}
+
+export async function getActivities(): Promise<Activity[]> {
+    return await fetchFromApi<Activity[]>('/activities');
+}
+
+export async function submitActivityResults(acceptedIds: number[], rejectedIds: number[]): Promise<{ status: string }> {
+    return await submitWithQuizId<{ status: string }>('/activities', {
+        accepted_ids: acceptedIds,
+        rejected_ids: rejectedIds
     });
 }
 
