@@ -45,7 +45,7 @@ export async function getScheduleOptions(): Promise<ScheduleOption[]> {
 
 export async function submitScheduleOptions(selectedIds: number[]): Promise<{ status: string }> {
     return await submitWithQuizId<{ status: string }>('/schedule', {
-        selectedt: selectedIds
+        selected_ids: selectedIds
     });
 }
 
@@ -55,7 +55,7 @@ export async function getTagOptions(): Promise<TagOption[]> {
 
 export async function submitTagOptions(selectedIds: number[]): Promise<{ status: string }> {
     return await submitWithQuizId<{ status: string }>('/tags', {
-        selectedt: selectedIds
+        selected_ids: selectedIds
     });
 }
 
