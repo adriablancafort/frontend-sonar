@@ -3,12 +3,14 @@ import { Text, Pressable, Animated } from 'react-native';
 
 interface TagProps {
   title: string;
+  image_uri: string;
   isSelected?: boolean;
   onPress?: () => void;
 }
 
-export default function Tag({ 
+export default function TagCard({ 
   title, 
+  image_uri, 
   isSelected = false, 
   onPress 
 }: TagProps) {

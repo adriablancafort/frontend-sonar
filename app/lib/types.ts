@@ -4,3 +4,10 @@ export interface ScheduleOption {
   title: string;
   date: string;
 }
+
+// Tags
+export interface TagOption {
+  id: number;
+  title: string;
+  image_uri: string;
+}

@@ -1,5 +1,5 @@
 import { readFromStorage, writeToStorage } from '@/app/lib/storage';
-import { ScheduleOption } from '@/app/lib/types';
+import { ScheduleOption, TagOption } from '@/app/lib/types';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 const QUIZ_ID_KEY = 'quiz_id';
@@ -14,7 +14,11 @@ async function fetchFromApi<T>(endpoint: string, options = {}): Promise<T> {
 
 async function submitWithQuizId<T>(endpoint: string, data: Record<string, any>): Promise<T> {
     const quizId = await readFromStorage(QUIZ_ID_KEY);
-
+    
+    if (!quizId) {
+        throw new Error('Quiz ID not found in storage');
+    }
+    
     const payload = {
         quiz_id: parseInt(quizId, 10),
         ...data
@@ -41,6 +45,16 @@ export async function getScheduleOptions(): Promise<ScheduleOption[]> {
 
 export async function submitScheduleOptions(selectedIds: number[]): Promise<{ status: string }> {
     return await submitWithQuizId<{ status: string }>('/schedule', {
+        selectedt: selectedIds
+    });
+}
+
+export async function getTagOptions(): Promise<TagOption[]> {
+    return await fetchFromApi<TagOption[]>('/tags');
+}
+
+export async function submitTagOptions(selectedIds: number[]): Promise<{ status: string }> {
+    return await submitWithQuizId<{ status: string }>('/tags', {
         selectedt: selectedIds
     });
 }
