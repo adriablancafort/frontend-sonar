@@ -3,7 +3,7 @@ import { Dimensions, ActivityIndicator } from 'react-native'
 import { GestureDetector, Gesture, GestureHandlerRootView } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring, runOnJS, withTiming, WithTimingConfig, Easing, withSequence } from 'react-native-reanimated'
 import { Redirect } from 'expo-router';
-import VideoCard from '@/app/components/VideoCard'
+import ActivityCard from '@/app/components/ActivityCard'
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -178,8 +178,8 @@ export default function SelectActivities() {
       ) : currentIndex < activity.length ? (
         <GestureDetector gesture={panGesture}>
           <Animated.View className="w-full h-full" style={cardStyle}>
-            <VideoCard
-              artistName={activity[currentIndex].title}
+            <ActivityCard
+              activityTitle={activity[currentIndex].title}
               videoUri={activity[currentIndex].video_uri}
               description={activity[currentIndex].description}
               genre={"Live"}
