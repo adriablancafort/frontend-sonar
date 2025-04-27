@@ -1,10 +1,12 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 import ScheduleCard from '@/app/components/ScheduleCard';
 
 export default function SelectSchedule() {
+  const router = useRouter();
+
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   
   const scheduleOptions = [
@@ -19,6 +21,10 @@ export default function SelectSchedule() {
         ? prev.filter(id => id !== optionId)
         : [...prev, optionId]
     );
+  };
+
+  const handleNextStep = async () => {
+      router.push('/select-tags');
   };
 
   return (
@@ -39,15 +45,14 @@ export default function SelectSchedule() {
         ))}
       </View>
 
-      <Link href="/select-tags" asChild>
-        <TouchableOpacity 
-          className="py-2 pl-6 pr-3 rounded-full flex-row items-center bg-yellow-400 disabled:bg-gray-600"
-          disabled={selectedOptions.length === 0}
-        >
-          <Text className="font-semibold text-lg mr-1 text-black disabled:text-gray-400">Next</Text>
-          <Feather name="chevron-right" size={20} color="black" />
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity 
+        className="py-2 pl-6 pr-3 rounded-full flex-row items-center bg-yellow-400 disabled:bg-gray-600"
+        disabled={selectedOptions.length === 0}
+        onPress={handleNextStep}
+      >
+        <Text className="font-semibold text-lg mr-1">Next</Text>
+        <Feather name="chevron-right" size={20} color="black" />
+      </TouchableOpacity>
     </View>
   )
 }

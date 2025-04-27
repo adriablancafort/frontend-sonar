@@ -1,10 +1,12 @@
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 import Tag from '@/app/components/Tag';
 
 export default function SelectTags() {
+  const router = useRouter();
+
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   
   const tags = [
@@ -25,6 +27,10 @@ export default function SelectTags() {
         ? prev.filter(id => id !== tagId)
         : [...prev, tagId]
     );
+  };
+
+  const handleNextStep = async () => {
+    router.push('/select-activities');
   };
   
   return (
@@ -48,15 +54,14 @@ export default function SelectTags() {
         ))}
       </View>
 
-      <Link href="/select-activities" asChild>
-        <Pressable 
-          className="py-2 pl-6 pr-3 rounded-full flex-row items-center bg-yellow-400 disabled:bg-gray-600"
-          disabled={selectedTags.length === 0}
-        >
-          <Text className="font-semibold text-lg mr-1 text-black disabled:text-gray-400">Next</Text>
-          <Feather name="chevron-right" size={20} color="black" />
-        </Pressable>
-      </Link>
+      <TouchableOpacity 
+        className="py-2 pl-6 pr-3 rounded-full flex-row items-center bg-yellow-400 disabled:bg-gray-600"
+        disabled={selectedTags.length === 0}
+        onPress={handleNextStep}
+      >
+        <Text className="font-semibold text-lg mr-1">Next</Text>
+        <Feather name="chevron-right" size={20} color="black" />
+      </TouchableOpacity>
     </View>
   )
 }
