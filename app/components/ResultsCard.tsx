@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-interface ActivityCardProps {
+interface ResultsCardProps {
   title: string;
   description: string;
   schedule: string;
 }
 
-export default function ActivityCard({ title, description, schedule }: ActivityCardProps) {
+export default function ResultsCard({ title, description, schedule }: ResultsCardProps) {
   return (
     <View className="bg-gray-800 rounded-xl shadow-lg p-5 mb-4 border border-gray-700">
       <Text className="text-xl font-bold text-white">{title}</Text>
