@@ -2,13 +2,13 @@ import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
-import { getQuizId } from '@/app/lib/api';
+import { startQuiz } from '@/app/lib/api';
 
 export default function StartScreen() {
   const router = useRouter();
   
   const handleStartQuiz = async () => {
-      await getQuizId();
+      // await startQuiz();
       router.push('/select-schedule');
   };
 

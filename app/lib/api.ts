@@ -12,7 +12,7 @@ async function fetchFromApi<T>(endpoint: string): Promise<T> {
     return await response.json();
 }
 
-export async function getQuizId() {
+export async function startQuiz() {
     const data = await fetchFromApi<{ quiz_id: number }>('/quiz');
     const quizId = data.quiz_id;
     await writeToStorage(QUIZ_ID_KEY, quizId.toString());
