@@ -19,3 +19,16 @@ export interface Activity {
   description: string;
   video_uri: string;
 }
+
+// Results
+export interface Result {
+  id: number;
+  title: string;
+  description: string;
+  image_uri: string;
+  start_time: string;
+  end_time: string;
+  schedules: {
+    title: string;
+  };
+}

@@ -1,5 +1,5 @@
 import { readFromStorage, writeToStorage } from '@/app/lib/storage';
-import { ScheduleOption, TagOption, Activity } from '@/app/lib/types';
+import { ScheduleOption, TagOption, Activity, Result } from '@/app/lib/types';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 const QUIZ_ID_KEY = 'quiz_id';
@@ -68,5 +68,9 @@ export async function submitActivityResults(acceptedIds: number[], rejectedIds: 
         accepted_ids: acceptedIds,
         rejected_ids: rejectedIds
     });
+}
+
+export async function getResults(): Promise<Result[]> {
+    return await fetchFromApi<Result[]>('/results');
 }
 
