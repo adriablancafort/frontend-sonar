@@ -36,6 +36,13 @@ export default function SelectTags() {
   
   return (
     <View className="flex-1 justify-center items-center px-10">
+      <TouchableOpacity 
+        className="absolute top-20 left-4 p-2 z-10"
+        onPress={() => router.back()}
+      >
+        <Feather name="chevron-left" size={28} color="white" />
+      </TouchableOpacity>
+
       {loading ? (
         <ActivityIndicator size="small" color="#ffffff" />
       ) : (
