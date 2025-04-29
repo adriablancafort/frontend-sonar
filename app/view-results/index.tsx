@@ -7,6 +7,18 @@ import ResultsCard from '@/app/components/ResultsCard';
 import { Result } from '@/app/lib/types';
 import { getResults } from '@/app/lib/api';
 
+const cardColors = [
+  "bg-blue-700", 
+  "bg-purple-700",
+  "bg-pink-700",
+  "bg-indigo-700",
+  "bg-red-700",
+  "bg-orange-700",
+  "bg-emerald-700",
+  "bg-teal-700",
+  "bg-cyan-700",
+];
+
 export default function ViewResults() {
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<Result[]>([]);
@@ -18,6 +30,11 @@ export default function ViewResults() {
       setLoading(false);
     })();
   }, []);
+
+  const getColorForResult = (resultId: number) => {
+    const colorIndex = resultId % cardColors.length;
+    return cardColors[colorIndex];
+  };
 
   return (
     <SafeAreaView className="flex-1" edges={['top', 'left', 'right']}>
@@ -37,6 +54,7 @@ export default function ViewResults() {
                 startTime={result.start_time}
                 endTime={result.end_time}
                 imageUri={result.image_uri}
+                bgColor={getColorForResult(result.id)}
               />
             ))}
             <View style={{ height: 110 }} />
