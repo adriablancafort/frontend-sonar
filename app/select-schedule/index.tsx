@@ -57,12 +57,12 @@ export default function SelectSchedule() {
           </View>
 
           <TouchableOpacity 
-            className="py-2 pl-6 pr-3 rounded-full flex-row items-center bg-yellow-400 disabled:bg-gray-600"
+            className="bg-yellow-400 disabled:bg-neutral-500 py-3 pl-8 pr-5 rounded-full flex-row items-center"
             disabled={selectedOptions.length === 0}
             onPress={handleNextStep}
           >
-            <Text className="font-semibold text-lg mr-1">Next</Text>
-            <Feather name="chevron-right" size={20} color="black" />
+            <Text className="font-semibold text-xl mr-1">Next</Text>
+            <Feather name="chevron-right" size={22} color="black" />
           </TouchableOpacity>
         </>
       )}

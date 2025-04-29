@@ -39,11 +39,13 @@ export default function ViewResults() {
             ))}
           </ScrollView>
           
-          <Link href="/" asChild>
-            <TouchableOpacity className="bg-yellow-400 py-2 px-6 mb-20 rounded-full flex-row items-center">
-              <Text className="font-semibold text-lg">Start Again</Text>
-            </TouchableOpacity>
-          </Link>
+          <View className='mb-20'>
+            <Link href="/" asChild>
+              <TouchableOpacity className="bg-yellow-400 disabled:bg-neutral-500 py-3 px-8 rounded-full flex-row items-center">
+                <Text className="font-semibold text-xl">Start Again</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
         </>
       )}
     </View>

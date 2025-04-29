@@ -29,11 +29,11 @@ export default function StartScreen() {
       </Text>
 
       <TouchableOpacity 
-        className="bg-yellow-400 py-2 pl-6 pr-3 rounded-full flex-row items-center"
+        className="bg-yellow-400 py-3 pl-8 pr-5 rounded-full flex-row items-center"
         onPress={handleStartQuiz}
       >
-        <Text className="font-semibold text-lg mr-1">Start Now</Text>
-        <Feather name="chevron-right" size={20} color="black" />
+        <Text className="font-semibold text-xl mr-1">Start Now</Text>
+        <Feather name="chevron-right" size={22} color="black" />
       </TouchableOpacity>
     </View>
   )
