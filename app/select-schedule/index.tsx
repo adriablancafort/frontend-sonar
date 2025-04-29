@@ -50,6 +50,7 @@ export default function SelectSchedule() {
                 key={option.id}
                 title={option.title}
                 date={option.date}
+                type={option.type}
                 isSelected={selectedOptions.includes(option.id)}
                 onPress={() => toggleOption(option.id)}
               />

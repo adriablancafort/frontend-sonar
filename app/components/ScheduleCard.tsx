@@ -4,6 +4,7 @@ import { Text, Pressable, Animated } from 'react-native';
 interface ScheduleCardProps {
   title: string;
   date: string;
+  type: string;
   isSelected?: boolean;
   onPress?: () => void;
 }
@@ -11,6 +12,7 @@ interface ScheduleCardProps {
 export default function ScheduleCard({ 
   title, 
   date,
+  type,
   isSelected = false, 
   onPress 
 }: ScheduleCardProps) {
@@ -31,6 +33,14 @@ export default function ScheduleCard({
     }).start();
   };
 
+  const getBackgroundColor = () => {
+    if (isSelected) {
+      return type === 'day' ? 'bg-yellow-400' : 'bg-yellow-400';
+    } else {
+      return type === 'day' ? 'bg-blue-900' : 'bg-neutral-800';
+    }
+  };
+
   return (
     <Pressable
       onPress={onPress}
@@ -38,21 +48,19 @@ export default function ScheduleCard({
       onPressOut={handlePressOut}
     >
       <Animated.View 
-        className={`w-full h-16 rounded-lg justify-center items-center ${
-          isSelected ? 'bg-yellow-400' : 'bg-gray-800'
-        }`}
+        className={`w-full h-20 rounded-lg px-6 flex-row justify-between items-center ${getBackgroundColor()}`}
         style={{ transform: [{ scale: scaleAnim }] }}
       >
         <Text 
-          className={`font-bold ${
+          className={`font-semibold text-xl ${
             isSelected ? 'text-black' : 'text-white'
           }`}
         >
           {title}
         </Text>
         <Text 
-          className={`mt-1 ${
-            isSelected ? 'text-black' : 'text-gray-400'
+          className={`${
+            isSelected ? 'text-black' : 'text-white'
           }`}
         >
           {date}
