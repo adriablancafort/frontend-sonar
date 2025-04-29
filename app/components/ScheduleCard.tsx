@@ -37,7 +37,7 @@ export default function ScheduleCard({
     if (isSelected) {
       return type === 'day' ? 'bg-yellow-400' : 'bg-yellow-400';
     } else {
-      return type === 'day' ? 'bg-blue-900' : 'bg-neutral-800';
+      return type === 'day' ? 'bg-blue-950' : 'bg-neutral-800';
     }
   };
 
