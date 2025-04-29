@@ -48,7 +48,7 @@ export default function ScheduleCard({
       onPressOut={handlePressOut}
     >
       <Animated.View 
-        className={`w-full h-20 rounded-lg px-6 flex-row justify-between items-center ${getBackgroundColor()}`}
+        className={`w-full h-20 rounded-lg px-8 flex-row justify-between items-center ${getBackgroundColor()}`}
         style={{ transform: [{ scale: scaleAnim }] }}
       >
         <Text 
@@ -59,7 +59,7 @@ export default function ScheduleCard({
           {title}
         </Text>
         <Text 
-          className={`${
+          className={`text-xl ${
             isSelected ? 'text-black' : 'text-white'
           }`}
         >

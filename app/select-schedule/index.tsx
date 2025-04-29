@@ -35,12 +35,12 @@ export default function SelectSchedule() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center px-14">
+    <View className="flex-1 justify-center items-center px-12">
       {loading ? (
         <ActivityIndicator size="small" color="#ffffff" />
       ) : (
         <>
-          <Text className="text-white text-3xl font-bold mb-14">
+          <Text className="text-white text-3xl font-bold mb-12">
             When will you assist?
           </Text>
           

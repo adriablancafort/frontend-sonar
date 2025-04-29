@@ -38,7 +38,7 @@ export default function ResultsCard({
   const timeInfo = formatTimeDisplay();
 
   return (
-    <View className="bg-gray-800 rounded-xl shadow-lg p-5 mb-4 border border-gray-700 flex-row">
+    <View className="bg-neutral-800 rounded-xl shadow-lg p-5 mb-4 border border-neutral-700 flex-row">
       <View className="w-1/4 mr-4">
         <Image 
           source={{ uri: imageUri }} 
@@ -49,14 +49,14 @@ export default function ResultsCard({
       
       <View className="flex-1">
         <Text className="text-xl font-bold text-white">{title}</Text>
-        <Text className="text-gray-300 mt-2" numberOfLines={3}>{description}</Text>
+        <Text className="text-neutral-300 mt-2" numberOfLines={3}>{description}</Text>
         
         <View className="flex flex-row gap-2 mt-4">
-          <View className="bg-gray-700/50 px-3 py-1.5 rounded-lg self-start mb-1">
+          <View className="bg-neutral-700/50 px-3 py-1.5 rounded-lg self-start mb-1">
             <Text className="text-yellow-400 text-sm font-medium">{schedule}</Text>
           </View>
           
-          <View className="bg-gray-700/50 px-3 py-1.5 rounded-lg self-start">
+          <View className="bg-neutral-700/50 px-3 py-1.5 rounded-lg self-start">
             <Text className="text-yellow-400 text-sm font-medium">{timeInfo}</Text>
           </View>
         </View>

@@ -21,7 +21,7 @@ export default function ViewResults() {
     <View className="flex-1 bg-black items-center">
       {loading ? (
         <View className="flex-1 justify-center">
-          <ActivityIndicator size="large" color="#ffffff" />
+          <ActivityIndicator size="small" color="#ffffff" />
         </View>
       ) : (
         <>

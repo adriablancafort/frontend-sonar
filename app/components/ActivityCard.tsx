@@ -31,7 +31,7 @@ export default function ActivityCard ({ title, description, videoUri, genre }: A
         
         <Text className="text-white text-3xl mb-3 font-bold">{title}</Text>
         
-        <Text className="text-gray-300 mb-4 leading-6 text-lg">{description}</Text>
+        <Text className="text-neutral-300 mb-4 leading-6 text-lg">{description}</Text>
 
         <View className="bg-yellow-400 self-start rounded-full px-3 py-1">
           <Text className="text-black text-xs font-semibold">{genre}</Text>

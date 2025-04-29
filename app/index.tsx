@@ -13,18 +13,18 @@ export default function StartScreen() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center px-14">
+    <View className="flex-1 justify-center items-center px-12">
       <Image 
         source={require('../assets/images/route.png')}
-        className="w-40 h-40 mb-14"
+        className="w-40 h-40 mb-12"
         resizeMode="contain"
       />
     
-      <Text className="text-white text-3xl font-bold mb-6">
+      <Text className="text-white text-3xl font-bold mb-5">
         Welcome to MySónar
       </Text>
       
-      <Text className="text-center text-gray-300 text-xl mb-14">
+      <Text className="text-center text-neutral-300 text-xl mb-12">
         Discover Sónar Festival. Generate a custom schedule tailored to your preferences.
       </Text>
 

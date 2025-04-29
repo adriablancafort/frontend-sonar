@@ -35,18 +35,18 @@ export default function SelectTags() {
   };
   
   return (
-    <View className="flex-1 justify-center items-center px-14">
+    <View className="flex-1 justify-center items-center px-10">
       {loading ? (
         <ActivityIndicator size="small" color="#ffffff" />
       ) : (
         <>
-          <Text className="text-white text-3xl font-bold mb-14">
+          <Text className="text-white text-3xl font-bold mb-12">
             What defines you best?
           </Text>
           
-          <View className="mb-14">
+          <View className="mb-12">
             {[0, 1, 2].map(rowIndex => (
-              <View key={rowIndex} className="flex-row justify-between w-full mb-6">
+              <View key={rowIndex} className="flex-row justify-between w-full mb-4">
                 {tagOptions.slice(rowIndex * 3, (rowIndex + 1) * 3).map(tag => (
                   <TagCard
                     key={tag.id}
