@@ -10,8 +10,11 @@ import Animated, {
   withSequence, 
   runOnJS, 
   Easing,
-  cancelAnimation
+  cancelAnimation,
+  interpolate,
+  Extrapolate
 } from 'react-native-reanimated';
+import { Feather } from '@expo/vector-icons';
 import ActivityCard from '@/app/components/ActivityCard';
 import { getActivities, submitActivityResults } from '@/app/lib/api';
 import { Activity } from '@/app/lib/types';
@@ -151,21 +154,60 @@ export default function SelectActivities() {
     ],
   }));
 
+  // Add animated styles for the accept/reject buttons
+  const rejectButtonStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      translateX.value,
+      [0, -50],
+      [0, 1],
+      Extrapolate.CLAMP
+    );
+    
+    return { opacity };
+  });
+
+  const acceptButtonStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      translateX.value,
+      [0, 50],
+      [0, 1],
+      Extrapolate.CLAMP
+    );
+    
+    return { opacity };
+  });
+
   return (
     <GestureHandlerRootView className="flex-1 justify-center items-center">
       {loading || currentIndex === activities.length ? (
         <ActivityIndicator size="small" color="#ffffff" />
       ) : (
-        <GestureDetector gesture={panGesture}>
-          <Animated.View className="w-full h-full" style={cardStyle}>
-            <ActivityCard
-              title={activities[currentIndex].title}
-              description={activities[currentIndex].description}
-              videoUri={activities[currentIndex].video_uri}
-              tags={activities[currentIndex].tags}
-            />
+        <>
+          <Animated.View 
+            style={rejectButtonStyle}
+            className="absolute left-3 z-10 bg-red-500 rounded-full p-4"
+          >
+            <Feather name="x" size={30} color="white" />
           </Animated.View>
-        </GestureDetector>
+          
+          <Animated.View 
+            style={acceptButtonStyle}
+            className="absolute right-3 z-10 bg-green-500 rounded-full p-4"
+          >
+            <Feather name="check" size={30} color="white" />
+          </Animated.View>
+
+          <GestureDetector gesture={panGesture}>
+            <Animated.View className="w-full h-full" style={cardStyle}>
+              <ActivityCard
+                title={activities[currentIndex].title}
+                description={activities[currentIndex].description}
+                videoUri={activities[currentIndex].video_uri}
+                tags={activities[currentIndex].tags}
+              />
+            </Animated.View>
+          </GestureDetector>
+        </>
       )}
     </GestureHandlerRootView>
   );
