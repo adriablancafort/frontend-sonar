@@ -162,7 +162,7 @@ export default function SelectActivities() {
               title={activities[currentIndex].title}
               description={activities[currentIndex].description}
               videoUri={activities[currentIndex].video_uri}
-              genre="Live"
+              tags={activities[currentIndex].tags}
             />
           </Animated.View>
         </GestureDetector>

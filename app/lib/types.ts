@@ -19,6 +19,7 @@ export interface Activity {
   title: string;
   description: string;
   video_uri: string;
+  tags: string[];
 }
 
 // Results

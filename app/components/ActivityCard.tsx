@@ -7,10 +7,15 @@ interface ActivityCardProps {
   title: string;
   description: string;
   videoUri: string;
-  genre: string;
+  tags: string[];
 }
 
-export default function ActivityCard ({ title, description, videoUri, genre }: ActivityCardProps) {
+export default function ActivityCard ({ 
+  title, 
+  description, 
+  videoUri, 
+  tags = [] 
+}: ActivityCardProps) {
   return (
     <View className="relative w-full h-full rounded-3xl overflow-hidden">
       <Video 
@@ -33,9 +38,18 @@ export default function ActivityCard ({ title, description, videoUri, genre }: A
         
         <Text className="text-neutral-300 mb-4 leading-6 text-lg">{description}</Text>
 
-        <View className="bg-yellow-400 self-start rounded-full px-3 py-1">
-          <Text className="text-black text-xs font-semibold">{genre}</Text>
-        </View>
+        {tags.length > 0 && (
+          <View className="flex-row flex-wrap gap-2 mb-4">
+            {tags.map((tag, index) => (
+              <View 
+                key={index} 
+                className="bg-yellow-400 rounded-full px-3 py-1"
+              >
+                <Text className="text-black font-medium">{tag}</Text>
+              </View>
+            ))}
+          </View>
+        )}
       </View>
     </View>
   )
