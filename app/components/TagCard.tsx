@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Text, Pressable, Animated } from 'react-native';
+import { Text, Pressable, Animated, ImageBackground, View } from 'react-native';
 
 interface TagProps {
   title: string;
@@ -38,18 +38,26 @@ export default function TagCard({
       onPressOut={handlePressOut}
     >
       <Animated.View 
-        className={`h-24 w-24 rounded-full justify-center items-center ${
-          isSelected ? 'bg-yellow-400' : 'bg-gray-800'
+        className={`h-28 w-28 rounded-full overflow-hidden ${
+          isSelected ? 'border-4 border-yellow-400' : ''
         }`}
         style={{ transform: [{ scale: scaleAnim }] }}
       >
-        <Text 
-          className={`text-center ${
-            isSelected ? 'text-black font-medium' : 'text-white'
-          }`}
+        <ImageBackground 
+          source={{ uri: image_uri }} 
+          className="h-full w-full"
+          resizeMode="cover"
         >
-          {title}
-        </Text>
+          <View className={`h-full w-full justify-center items-center ${
+            isSelected ? 'bg-yellow-400/30' : 'bg-neutral-800/60'
+          }`}>
+            <Text 
+              className="text-center text-lg font-bold text-white"
+            >
+              {title}
+            </Text>
+          </View>
+        </ImageBackground>
       </Animated.View>
     </Pressable>
   );
