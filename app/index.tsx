@@ -24,8 +24,8 @@ export default function StartScreen() {
         Welcome to MySónar
       </Text>
       
-      <Text className="text-center text-gray-300 text-lg mb-14">
-        Complete a short interactive quiz to get a personalized schedule for Sónar Festival 2025 tailored to your preferences!
+      <Text className="text-center text-gray-300 text-xl mb-14">
+        Discover Sónar Festival. Generate a custom schedule tailored to your preferences.
       </Text>
 
       <TouchableOpacity 
