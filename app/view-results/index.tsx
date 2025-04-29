@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Link } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import ResultsCard from '@/app/components/ResultsCard';
 import { Result } from '@/app/lib/types';
 import { getResults } from '@/app/lib/api';
@@ -18,14 +20,14 @@ export default function ViewResults() {
   }, []);
 
   return (
-    <View className="flex-1 bg-black items-center">
+    <SafeAreaView className="flex-1" edges={['top', 'left', 'right']}>
       {loading ? (
         <View className="flex-1 justify-center">
           <ActivityIndicator size="small" color="#ffffff" />
         </View>
       ) : (
-        <>
-          <ScrollView className="flex-1 px-4 pt-24 w-full">
+        <View className="flex-1 items-center">
+          <ScrollView className="flex-1 px-4 w-full">
             {results.map((result) => (
               <ResultsCard
                 key={result.id}
@@ -37,17 +39,36 @@ export default function ViewResults() {
                 imageUri={result.image_uri}
               />
             ))}
+            <View style={{ height: 110 }} />
           </ScrollView>
           
-          <View className='mb-20'>
-            <Link href="/" asChild>
-              <TouchableOpacity className="bg-yellow-400 disabled:bg-neutral-500 py-3 px-8 rounded-full flex-row items-center">
-                <Text className="font-semibold text-xl">Start Again</Text>
-              </TouchableOpacity>
-            </Link>
+          <View className="absolute bottom-0 left-0 right-0">
+            <LinearGradient
+              colors={[
+                'rgba(0,0,0,0)',
+                'rgba(0,0,0,0.7)',
+                'rgba(0,0,0,0.97)',
+                'rgba(0,0,0,1)'
+              ]}
+              locations={[0, 0.2, 0.4, 0.8]}
+              style={{
+                position: 'absolute',
+                height: 160,
+                width: '100%',
+                bottom: 0
+              }}
+            />
+            
+            <View className="items-center pb-20 pt-4">
+              <Link href="/" asChild>
+                <TouchableOpacity className="bg-yellow-400 disabled:bg-neutral-500 py-3 px-8 rounded-full flex-row items-center">
+                  <Text className="font-semibold text-xl">Start Again</Text>
+                </TouchableOpacity>
+              </Link>
+            </View>
           </View>
-        </>
+        </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 }
