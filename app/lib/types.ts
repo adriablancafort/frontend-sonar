@@ -20,6 +20,11 @@ export interface Activity {
   description: string;
   video_uri: string;
   tags: string[];
+  image_uri: string;
+  start_time: string;
+  end_time: string;
+  long_text: string;
+  activity_uri: string;
 }
 
 // Results

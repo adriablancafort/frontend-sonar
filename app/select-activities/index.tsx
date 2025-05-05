@@ -177,6 +177,8 @@ export default function SelectActivities() {
     return { opacity };
   });
 
+  const activity = activities[currentIndex];
+
   return (
     <GestureHandlerRootView className="flex-1 justify-center items-center">
       {loading || currentIndex === activities.length ? (
@@ -199,11 +201,17 @@ export default function SelectActivities() {
 
           <GestureDetector gesture={panGesture}>
             <Animated.View className="w-full h-full" style={cardStyle}>
+
               <ActivityCard
                 title={activities[currentIndex].title}
                 description={activities[currentIndex].description}
                 videoUri={activities[currentIndex].video_uri}
                 tags={activities[currentIndex].tags}
+                imageUri={activities[currentIndex].image_uri}
+                startTime={activities[currentIndex].start_time}
+                endTime={activities[currentIndex].end_time}
+                longText={activities[currentIndex].long_text}
+                activityUri={activities[currentIndex].activity_uri}
               />
             </Animated.View>
           </GestureDetector>
