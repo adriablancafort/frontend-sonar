@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, Linking } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, Linking, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import Video from '@/app/components/Video';
@@ -14,6 +14,7 @@ interface ActivityCardProps {
   endTime?: string;
   longText: string;
   activityUri: string;
+  color?: string;
 }
 
 export default function ActivityCard({
@@ -21,21 +22,22 @@ export default function ActivityCard({
   description,
   videoUri,
   tags,
-  imageUri,
+  imageUri = "https://irjubpjnvgdhlyzigdpn.supabase.co/storage/v1/object/public/images//Arminvan.webp",
   startTime,
   endTime,
-  longText,
-  activityUri
+  longText = "asdkjbaksfbkdjg",
+  activityUri = "https://sonar.es/es/actividad/armin-van-buuren-b2b-indira-paganotto",
+  color = "#7a85ff",
 }: ActivityCardProps) {
   const [showMoreDescription, setShowMoreDescription] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showArtistCard, setShowArtistCard] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  alert('Image URI: ' + imageUri);
-  alert('Video URI: ' + videoUri);
-  alert('Activity URI: ' + activityUri);
-  alert('Long Text: ' + longText);
+  // alert('Image URI: ' + imageUri);
+  // alert('Video URI: ' + videoUri);
+  // alert('Activity URI: ' + activityUri);
+  // alert('Long Text: ' + longText);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -74,7 +76,7 @@ export default function ActivityCard({
   
       {/* Video overlay gradient for better text visibility */}
       <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.7)', 'rgba(0,0,0,0.9)']}
+        colors={['transparent', 'rgb(170, 83, 216)']}
         className="absolute bottom-0 left-0 right-0 h-1/3"
       />
   
@@ -94,11 +96,19 @@ export default function ActivityCard({
           <TouchableOpacity onPress={toggleArtistCard}>
             <Image 
               source={{ uri: imageUri }} 
-              className="w-12 h-12 rounded-full border-2 border-orange-500" 
+              className="w-20 h-20 rounded-full border-2 border-orange-500" 
             />
           </TouchableOpacity>
-          <View className="ml-3 flex-1">
-            <Text className="text-white font-bold text-lg">{title}</Text>
+          <View style={styles.nameContainer}>
+            <Text 
+              style={styles.ArtistName}
+              adjustsFontSizeToFit
+              minimumFontScale={0.5}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            >
+              {title}
+            </Text>
           </View>
         </View>
   
@@ -115,22 +125,25 @@ export default function ActivityCard({
         {/* Tags pill section */}
         <ScrollView 
           horizontal 
-          showsHorizontalScrollIndicator={false}
+          showsHorizontalScrollIndicator={true}
           className="mb-3"
         >
           {tags.map((tag, index) => (
             <View 
               key={index} 
-              className="bg-neutral-800/80 px-3 py-1 rounded-full mr-2 border border-neutral-700"
+              style={[styles.tagPill, { backgroundColor: color }]}
             >
-              <Text className="text-white text-sm">{tag}</Text>
+              <Text style={styles.tagText}>{tag}</Text>
             </View>
           ))}
         </ScrollView>
   
         {/* Expandable artist card */}
         {showArtistCard && (
-          <View className="bg-neutral-800/90 p-4 rounded-xl mt-2 border border-neutral-700 flex-row space-x-4 items-start">
+          <View style={[styles.bottomContainer, {
+            backgroundColor: color ?? 'rgba(38, 38, 38, 0.9)',
+            borderColor: color ?? '#3f3f46', // update to secondary color when we have it :))
+          }]}>
             {/* Left: Rounded Image */}
             <Image 
               source={{ uri: imageUri }} 
@@ -141,13 +154,13 @@ export default function ActivityCard({
             {/* Right: LongText + link */}
             <View className="flex-1">
               <View className="flex-row justify-between items-start mb-1">
-                <Text className="text-white font-bold text-base mb-1">About {title}</Text>
+                <Text style={styles.About_title}>About {title}</Text>
                 <TouchableOpacity onPress={toggleArtistCard}>
                   <Feather name="x" size={18} color="white" />
                 </TouchableOpacity>
               </View>
   
-              <Text className="text-white text-sm mb-1">
+              <Text style={styles.About_text}>
                 {expanded ? longText : longText.slice(0, 120) + (longText.length > 120 ? "..." : "")}
                 {longText.length > 120 && (
                   <TouchableOpacity onPress={() => setExpanded(!expanded)}>
@@ -169,3 +182,54 @@ export default function ActivityCard({
     </View>
   );    
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  nameContainer: {
+    flex: 1,           // allow it to shrink/grow properly
+    marginRight: 16,   // optional: some spacing on the right
+  },
+  ArtistName: {
+    fontWeight: 'bold',
+    fontSize: 35,
+    color: 'white',
+    marginLeft: 15,
+  },
+  innerText: {
+    color: 'red',
+  },
+  tagPill: {
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 999,
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: '#3f3f46', // neutral-700
+  },
+  tagText: {
+    color: 'white',
+    fontSize: 14,
+  },
+  About_title :{
+    color: 'white',
+    fontSize: 16,
+    marginLeft: 9,
+    marginBottom: 4
+  },
+  About_text :{
+    color: 'white',
+    fontSize: 12,
+    marginLeft: 9,
+  },
+  bottomContainer: {
+    padding: 16,
+    borderRadius: 16,
+    marginTop: 8,
+    borderWidth: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 16, // Requires React Native >= 0.71
+  },
+});
