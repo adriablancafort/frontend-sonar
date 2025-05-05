@@ -25,7 +25,7 @@ export default function ActivityCard({
   imageUri = "https://irjubpjnvgdhlyzigdpn.supabase.co/storage/v1/object/public/images//Arminvan.webp",
   startTime,
   endTime,
-  longText = "asdkjbaksfbkdjg",
+  longText = "asdkjbaksfbkdjg kjfgijabg ashgjkasbg aisuhfiasjk iuagkjdsg iudgbkjsd iudgbsjk idbgsg idgbsn  iudgbks iudbsgk ibgsd gik sdgihksdigb sdisdbh gksdibg sdigb dsig kidgb iadbg adiubgai gadibg dai ",
   activityUri = "https://sonar.es/es/actividad/armin-van-buuren-b2b-indira-paganotto",
   color = "#7a85ff",
 }: ActivityCardProps) {
@@ -147,14 +147,22 @@ export default function ActivityCard({
             {/* Left: Rounded Image */}
             <Image 
               source={{ uri: imageUri }} 
-              className="w-20 h-20 rounded-xl"
+              style={styles.cardImage}
               resizeMode="cover"
             />
   
             {/* Right: LongText + link */}
             <View className="flex-1">
               <View className="flex-row justify-between items-start mb-1">
-                <Text style={styles.About_title}>About {title}</Text>
+                <View style={{ flex: 1, marginRight: 8 }}>
+                  <Text
+                    style={styles.About_title}
+                    numberOfLines={1}
+                    ellipsizeMode="tail"
+                  >
+                    About {title}
+                  </Text>
+                </View>
                 <TouchableOpacity onPress={toggleArtistCard}>
                   <Feather name="x" size={18} color="white" />
                 </TouchableOpacity>
@@ -164,7 +172,7 @@ export default function ActivityCard({
                 {expanded ? longText : longText.slice(0, 120) + (longText.length > 120 ? "..." : "")}
                 {longText.length > 120 && (
                   <TouchableOpacity onPress={() => setExpanded(!expanded)}>
-                    <Text className="text-blue-400"> {expanded ? "See less" : "See more"}</Text>
+                    <Text style={styles.seeMore}> {expanded ? "See less" : "See more"}</Text>
                   </TouchableOpacity>
                 )}
               </Text>
@@ -196,6 +204,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: 'white',
     marginLeft: 15,
+    marginRight: 8, 
   },
   innerText: {
     color: 'red',
@@ -212,16 +221,26 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 14,
   },
+  seeMore: {
+    color: 'white',
+    fontSize: 12
+  },
+  cardImage: {
+    width: 72,  // equivalent to w-18
+    height: 72, // equivalent to h-18
+    borderRadius: 12,
+    marginRight: 4,
+  },
   About_title :{
     color: 'white',
     fontSize: 16,
-    marginLeft: 9,
+    // marginLeft: 4,
     marginBottom: 4
   },
   About_text :{
     color: 'white',
     fontSize: 12,
-    marginLeft: 9,
+    // marginLeft: 9,
   },
   bottomContainer: {
     padding: 16,
