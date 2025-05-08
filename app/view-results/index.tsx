@@ -96,10 +96,11 @@ export default function ViewResults() {
                   startTime={result.start_time}
                   endTime={result.end_time}
                   imageUri={result.image_uri}
-                  dominant_color={result.dominant_color}
-                  dark_color={result.dark_color}
-                  pastel_color={result.pastel_color}
+                  dominantColor={result.dominant_color}
+                  darkColor={result.dark_color}
+                  pastelColor={result.pastel_color}
                   activityUri={result.activity_uri}
+                  tags={result.tags}
                 />
               ))}
               <View style={{ height: 120 }} />

@@ -44,4 +44,5 @@ export interface Result {
   dark_color: string;
   pastel_color: string;
   activity_uri: string;
+  tags: string[];
 }
