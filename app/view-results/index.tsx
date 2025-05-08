@@ -43,17 +43,16 @@ export default function ViewResults() {
 
   return (
     <View style={styles.container}>
-      {/* Animated background */}
-      <Animated.View 
+      {/* Background Image */}
+      <Animated.View
         style={[
           styles.backgroundContainer,
-          { transform: [{ translateY: backgroundTranslateY }] }
+          { transform: [{ translateY: backgroundTranslateY }] },
         ]}
       >
         <ImageBackground
-          source={{ uri: "https://pbs.twimg.com/profile_images/1704832863797903360/BpPBjLwV_400x400.jpg" }} 
+          source={require('./assets/fons_results.jpg')}
           style={styles.backgroundImage}
-          // blurRadius={5}
         >
           <LinearGradient
             colors={['rgba(0,0,0,0.3)', 'rgba(0,0,0,0.8)']}
@@ -61,7 +60,8 @@ export default function ViewResults() {
           />
         </ImageBackground>
       </Animated.View>
-
+  
+      {/* Main Content */}
       <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
         {/* Header */}
         <View style={styles.header}>
@@ -70,7 +70,7 @@ export default function ViewResults() {
             <Text style={styles.headerSubtitle}>Your personalized recommendations</Text>
           </BlurView>
         </View>
-        
+  
         {loading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#ffffff" />
@@ -105,15 +105,15 @@ export default function ViewResults() {
               ))}
               <View style={{ height: 120 }} />
             </Animated.ScrollView>
-            
-            {/* Bottom action bar with gradient */}
+  
+            {/* Bottom Bar */}
             <View style={styles.bottomBarContainer}>
               <LinearGradient
                 colors={[
                   'rgba(0,0,0,0)',
                   'rgba(0,0,0,0.7)',
                   'rgba(0,0,0,0.97)',
-                  'rgba(0,0,0,1)'
+                  'rgba(0,0,0,1)',
                 ]}
                 locations={[0, 0.2, 0.4, 0.8]}
                 style={styles.bottomGradient}
@@ -132,6 +132,7 @@ export default function ViewResults() {
       </SafeAreaView>
     </View>
   );
+  
 }
 
 const styles = StyleSheet.create({
@@ -144,12 +145,12 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: Dimensions.get('window').height * 1.2, // Slightly taller for parallax
   },
   backgroundImage: {
     flex: 1,
     width: '100%',
     height: '100%',
+    minHeight: Dimensions.get('window').height * 2,
   },
   backgroundGradient: {
     position: 'absolute',
