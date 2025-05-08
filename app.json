@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "frontend-sonar",
-    "slug": "frontend-sonar",
+    "slug": "mysonar",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -37,6 +37,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a4ff7929-5886-437b-a972-1b594357dd62"
+      }
+    },
+    "owner": "adriablancafort"
   }
 }
