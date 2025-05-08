@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, Linking, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, Linking, StyleSheet, LayoutAnimation, Platform, UIManager, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import Video from '@/app/components/Video';
@@ -12,9 +12,17 @@ interface ActivityCardProps {
   imageUri: string;
   startTime?: string;
   endTime?: string;
-  longText: string;
   activityUri: string;
-  color?: string;
+  dominantColor?: string;
+  darkColor?: string;
+  pastelColor?: string;
+}
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 export default function ActivityCard({
@@ -25,19 +33,14 @@ export default function ActivityCard({
   imageUri = "https://irjubpjnvgdhlyzigdpn.supabase.co/storage/v1/object/public/images//Arminvan.webp",
   startTime,
   endTime,
-  longText = "asdkjbaksfbkdjg kjfgijabg ashgjkasbg aisuhfiasjk iuagkjdsg iudgbkjsd iudgbsjk idbgsg idgbsn  iudgbks iudbsgk ibgsd gik sdgihksdigb sdisdbh gksdibg sdigb dsig kidgb iadbg adiubgai gadibg dai ",
   activityUri = "https://sonar.es/es/actividad/armin-van-buuren-b2b-indira-paganotto",
-  color = "#7a85ff",
+  dominantColor = "#7a85ff",
+  darkColor = "#4a5bff",
+  pastelColor = "#a3b2ff",
 }: ActivityCardProps) {
   const [showMoreDescription, setShowMoreDescription] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showArtistCard, setShowArtistCard] = useState(false);
-  const [expanded, setExpanded] = useState(false);
-
-  // alert('Image URI: ' + imageUri);
-  // alert('Video URI: ' + videoUri);
-  // alert('Activity URI: ' + activityUri);
-  // alert('Long Text: ' + longText);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
@@ -46,11 +49,6 @@ export default function ActivityCard({
   const toggleArtistCard = () => {
     setShowArtistCard(!showArtistCard);
   };
-
-  // Truncate description if it's too long
-  const shortDescription = description.length > 100 
-    ? `${description.substring(0, 100)}...` 
-    : description;
   
   const handleLinkPress = () => {
     if (activityUri) {
@@ -58,11 +56,10 @@ export default function ActivityCard({
     }
   };
   
-  const toggleExpanded = () => setExpanded(!expanded);
-
-  const previewText = longText.length > 120 && !expanded
-    ? longText.slice(0, 120).trim() + "..."
-    : longText;
+  const toggleDescription = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setShowMoreDescription(!showMoreDescription);
+  };
 
   return (
     <View className="flex-1 relative w-full h-full bg-neutral-900">
@@ -71,37 +68,40 @@ export default function ActivityCard({
         source={{ uri: videoUri }}
         style={{ position: 'absolute', width: '100%', height: '100%' }}
         muted={isMuted}
-        // repeat
+        // resizeMode="cover"
       />
   
       {/* Video overlay gradient for better text visibility */}
       <LinearGradient
-        colors={['transparent', 'rgb(170, 83, 216)']}
-        className="absolute bottom-0 left-0 right-0 h-1/3"
+        colors={['transparent', 'rgba(0,0,0,0.5)', darkColor]}
+        locations={[0.5, 0.8, 1]}
+        className="absolute bottom-0 left-0 right-0 h-2/5"
       />
   
       {/* Mute/Unmute button */}
       <TouchableOpacity 
         onPress={toggleMute}
-        className="absolute top-10 right-4 bg-black/50 rounded-full p-2"
+        className="absolute top-10 right-4 bg-black/60 rounded-full p-3"
+        style={{ elevation: 3 }}
       >
-        <Feather name={isMuted ? "volume-x" : "volume-2"} size={24} color="white" />
+        <Feather name={isMuted ? "volume-x" : "volume-2"} size={22} color="white" />
       </TouchableOpacity>
   
       {/* Bottom content container */}
-      <View className="absolute bottom-0 left-0 right-0 p-4">
+      <View className="absolute bottom-0 left-0 right-0 p-5">
         
         {/* Artist profile section */}
-        <View className="flex-row items-center mb-3">
-          <TouchableOpacity onPress={toggleArtistCard}>
+        <View className="flex-row items-center mb-4">
+          <TouchableOpacity onPress={toggleArtistCard} style={styles.profileImageWrapper}>
             <Image 
               source={{ uri: imageUri }} 
-              className="w-20 h-20 rounded-full border-2 border-orange-500" 
+              className="w-20 h-20 rounded-full"
+              style={styles.profileImage}
             />
           </TouchableOpacity>
           <View style={styles.nameContainer}>
             <Text 
-              style={styles.ArtistName}
+              style={styles.artistName}
               adjustsFontSizeToFit
               minimumFontScale={0.5}
               numberOfLines={2}
@@ -112,79 +112,159 @@ export default function ActivityCard({
           </View>
         </View>
   
-        {/* Description */}
-        <TouchableOpacity onPress={() => setShowMoreDescription(!showMoreDescription)}>
-          <Text className="text-white mb-3">
-            {showMoreDescription ? description : description.slice(0, 100) + (description.length > 100 ? "..." : "")}
-            {description.length > 100 && !showMoreDescription && (
-              <Text className="text-neutral-400"> See more</Text>
-            )}
-          </Text>
-        </TouchableOpacity>
-  
         {/* Tags pill section */}
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={true}
-          className="mb-3"
-        >
+        <View style={styles.tagContainer}>
           {tags.map((tag, index) => (
             <View 
               key={index} 
-              style={[styles.tagPill, { backgroundColor: color }]}
+              style={[styles.tagPill, { backgroundColor: `${dominantColor}CC` }]}
             >
               <Text style={styles.tagText}>{tag}</Text>
             </View>
           ))}
-        </ScrollView>
+        </View>
   
         {/* Expandable artist card */}
         {showArtistCard && (
-          <View style={[styles.bottomContainer, {
-            backgroundColor: color ?? 'rgba(38, 38, 38, 0.9)',
-            borderColor: color ?? '#3f3f46', // update to secondary color when we have it :))
-          }]}>
-            {/* Left: Rounded Image */}
-            <Image 
-              source={{ uri: imageUri }} 
-              style={styles.cardImage}
-              resizeMode="cover"
-            />
-  
-            {/* Right: LongText + link */}
-            <View className="flex-1">
-              <View className="flex-row justify-between items-start mb-1">
-                <View style={{ flex: 1, marginRight: 8 }}>
-                  <Text
-                    style={styles.About_title}
-                    numberOfLines={1}
-                    ellipsizeMode="tail"
-                  >
-                    About {title}
+          <Animated.View style={[
+            styles.bottomContainer,
+            {
+              backgroundColor: 'rgba(20, 20, 20, 0.9)',
+              borderColor: pastelColor,
+            },
+          ]}>
+            {showMoreDescription ? (
+              // 🔹 Expanded View
+              <View>
+                {/* Horizontal Full-Width Image */}
+                <Image
+                  source={{ uri: imageUri }}
+                  style={styles.expandedCardImage}
+                  resizeMode="cover"
+                />
+
+                {/* Title and close button */}
+                <View className="flex-row justify-between items-center mt-4 mb-2">
+                  <Text style={styles.expandedTitle}>
+                    {title}
                   </Text>
-                </View>
-                <TouchableOpacity onPress={toggleArtistCard}>
-                  <Feather name="x" size={18} color="white" />
-                </TouchableOpacity>
-              </View>
-  
-              <Text style={styles.About_text}>
-                {expanded ? longText : longText.slice(0, 120) + (longText.length > 120 ? "..." : "")}
-                {longText.length > 120 && (
-                  <TouchableOpacity onPress={() => setExpanded(!expanded)}>
-                    <Text style={styles.seeMore}> {expanded ? "See less" : "See more"}</Text>
+                  
+                  <TouchableOpacity 
+                    onPress={toggleArtistCard}
+                    style={[styles.closeButton, { backgroundColor: `${dominantColor}99` }]}
+                  >
+                    <Feather name="x" size={18} color="white" />
                   </TouchableOpacity>
+                </View>
+
+                {/* Time information if available */}
+                {startTime && endTime && (
+                  <View className="flex-row items-center mb-3" style={{ opacity: 0.9 }}>
+                    <Feather name="clock" size={14} color="white" style={{ marginRight: 6 }} />
+                    <Text style={styles.timeText}>
+                      {startTime} - {endTime}
+                    </Text>
+                  </View>
                 )}
-              </Text>
-  
-              <TouchableOpacity 
-                onPress={() => Linking.openURL(activityUri)} 
-                className="self-end mt-1"
-              >
-                <Feather name="arrow-up-right" size={18} color="white" />
-              </TouchableOpacity>
-            </View>
-          </View>
+
+                {/* Full Description */}
+                <Text style={styles.expandedDescription}>{description}</Text>
+
+                {/* Controls */}
+                <View className="flex-row justify-between items-center mt-6">
+                  <TouchableOpacity 
+                    onPress={toggleDescription}
+                    style={[styles.actionButton, { backgroundColor: `${dominantColor}99` }]}
+                  >
+                    <Feather name="chevron-up" size={16} color="white" />
+                    <Text style={styles.actionButtonText}>Show less</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity 
+                    onPress={handleLinkPress}
+                    style={[styles.actionButton, { backgroundColor: `${dominantColor}` }]}
+                  >
+                    <Text style={styles.actionButtonText}>View details</Text>
+                    <Feather name="arrow-up-right" size={16} color="white" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : (
+              // 🔹 Collapsed View
+              <View className="relative">
+                <View className="flex-row space-x-4">
+                  {/* Left Image */}
+                  <Image
+                    source={{ uri: imageUri }}
+                    style={styles.cardImage}
+                    resizeMode="cover"
+                  />
+
+                  {/* Right Content */}
+                  <View style={{ flex: 1, paddingBottom: 48 }}> {/* reserve space for buttons */}
+                    <View className="flex-row justify-between items-start mb-2">
+                      <View style={{ flex: 1, marginRight: 8 }}>
+                        <Text
+                          style={styles.aboutTitle}
+                          numberOfLines={1}
+                          ellipsizeMode="tail"
+                        >
+                          About {title}
+                        </Text>
+                      </View>
+
+                      <TouchableOpacity
+                        onPress={toggleArtistCard}
+                        style={styles.smallCloseButton}
+                      >
+                        <Feather name="x" size={16} color="white" />
+                      </TouchableOpacity>
+                    </View>
+
+                    <View className="mb-3">
+                      <Text
+                        style={[styles.aboutText, { paddingRight: 4 }]} // small spacing from the image
+                        numberOfLines={3}
+                      >
+                        {description.slice(0, 100)}
+                        {description.length > 100 && '...'}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+
+                {/* Bottom Buttons */}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    paddingHorizontal: 12,
+                    paddingBottom: 8,
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={toggleDescription}
+                    style={[styles.smallActionButton, { backgroundColor: `${dominantColor}80` }]}
+                  >
+                    <Text style={styles.smallActionText}>Read more</Text>
+                    <Feather name="chevron-down" size={14} color="white" />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={handleLinkPress}
+                    style={[styles.smallActionButton, { backgroundColor: dominantColor }]}
+                  >
+                    <Text style={styles.smallActionText}>Details</Text>
+                    <Feather name="arrow-up-right" size={14} color="white" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          </Animated.View>
         )}
       </View>
     </View>
@@ -192,63 +272,133 @@ export default function ActivityCard({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  profileImageWrapper: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  profileImage: {
+    borderWidth: 2,
+    borderColor: "white",
   },
   nameContainer: {
-    flex: 1,           // allow it to shrink/grow properly
-    marginRight: 16,   // optional: some spacing on the right
-  },
-  ArtistName: {
-    fontWeight: 'bold',
-    fontSize: 35,
-    color: 'white',
+    flex: 1,
     marginLeft: 15,
-    marginRight: 8, 
   },
-  innerText: {
-    color: 'red',
+  tagContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    maxHeight: 72,
+    overflow: 'hidden',
+    marginBottom: 10,
+  },
+  artistName: {
+    fontWeight: 'bold',
+    fontSize: 32,
+    color: 'white',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 6,
   },
   tagPill: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingVertical: 4,
-    borderRadius: 999,
+    borderRadius: 20,
     marginRight: 8,
+    marginBottom: 8,
     borderWidth: 1,
-    borderColor: '#3f3f46', // neutral-700
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   tagText: {
     color: 'white',
     fontSize: 14,
-  },
-  seeMore: {
-    color: 'white',
-    fontSize: 12
-  },
-  cardImage: {
-    width: 72,  // equivalent to w-18
-    height: 72, // equivalent to h-18
-    borderRadius: 12,
-    marginRight: 4,
-  },
-  About_title :{
-    color: 'white',
-    fontSize: 16,
-    // marginLeft: 4,
-    marginBottom: 4
-  },
-  About_text :{
-    color: 'white',
-    fontSize: 12,
-    // marginLeft: 9,
+    fontWeight: '600',
+    marginBottom: 0
   },
   bottomContainer: {
     padding: 16,
-    borderRadius: 16,
-    marginTop: 8,
+    borderRadius: 20,
+    marginTop: 12,
     borderWidth: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  cardImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 12,
+  },
+  aboutTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 4,
+    marginLeft: 8
+  },
+  aboutText: {
+    color: 'rgba(255, 255, 255, 0.9)',
+    fontSize: 14,
+    lineHeight: 20,
+    marginLeft: 8
+  },
+  expandedCardImage: {
+    width: '100%',
+    height: 180,
+    borderRadius: 16,
+    marginBottom: 0,
+  },
+  expandedTitle: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  expandedDescription: {
+    color: 'rgba(255, 255, 255, 0.9)',
+    fontSize: 15,
+    lineHeight: 22,
+  },
+  timeText: {
+    color: 'white',
+    fontSize: 14,
+  },
+  closeButton: {
+    padding: 8,
+    borderRadius: 20,
+  },
+  smallCloseButton: {
+    padding: 6,
+    borderRadius: 12,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  actionButton: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 16, // Requires React Native >= 0.71
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    gap: 6,
+  },
+  actionButtonText: {
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 14,
+  },
+  smallActionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    gap: 4,
+  },
+  smallActionText: {
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 12,
   },
 });

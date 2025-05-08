@@ -19,12 +19,14 @@ export interface Activity {
   title: string;
   description: string;
   video_uri: string;
-  tags: string[];
   image_uri: string;
+  activity_uri: string;
   start_time: string;
   end_time: string;
-  long_text: string;
-  activity_uri: string;
+  dominant_color: string;
+  dark_color: string;
+  pastel_color: string;
+  tags: string[];
 }
 
 // Results
@@ -38,4 +40,8 @@ export interface Result {
   schedules: {
     title: string;
   };
+  dominant_color: string;
+  dark_color: string;
+  pastel_color: string;
+  activity_uri: string;
 }

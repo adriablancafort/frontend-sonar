@@ -210,8 +210,10 @@ export default function SelectActivities() {
                 imageUri={activities[currentIndex].image_uri}
                 startTime={activities[currentIndex].start_time}
                 endTime={activities[currentIndex].end_time}
-                longText={activities[currentIndex].long_text}
                 activityUri={activities[currentIndex].activity_uri}
+                dominantColor={activities[currentIndex].dominant_color}
+                darkColor={activities[currentIndex].dark_color}
+                pastelColor={activities[currentIndex].pastel_color}
               />
             </Animated.View>
           </GestureDetector>
