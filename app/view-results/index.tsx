@@ -7,8 +7,7 @@ import {
   ActivityIndicator, 
   ImageBackground,
   Animated,
-  Dimensions,
-  StyleSheet
+  Dimensions
 } from 'react-native';
 import { Link } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -25,7 +24,6 @@ export default function ViewResults() {
   const scrollY = useRef(new Animated.Value(0)).current;
   const { width: screenWidth } = Dimensions.get('window');
   
-  // Background parallax effect
   const backgroundTranslateY = scrollY.interpolate({
     inputRange: [0, 500],
     outputRange: [0, -100],
@@ -34,7 +32,6 @@ export default function ViewResults() {
 
   useEffect(() => {
     (async () => {
-      // Add small delay to show loading state
       const data = await getResults();
       setResults(data);
       setLoading(false);
@@ -42,44 +39,41 @@ export default function ViewResults() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      {/* Background Image */}
+    <View className="flex-1 bg-black">
       <Animated.View
-        style={[
-          styles.backgroundContainer,
-          { transform: [{ translateY: backgroundTranslateY }] },
-        ]}
+        className="absolute top-0 left-0 right-0"
+        style={{ transform: [{ translateY: backgroundTranslateY }] }}
       >
         <ImageBackground
           source={require('@/assets/images/background-results.jpg')}
-          style={styles.backgroundImage}
+          className="flex-1 w-full h-full"
+          style={{ minHeight: Dimensions.get('window').height * 2 }}
         >
           <LinearGradient
             colors={['rgba(0,0,0,0.3)', 'rgba(0,0,0,0.8)']}
-            style={styles.backgroundGradient}
+            className="absolute top-0 left-0 right-0 bottom-0"
           />
         </ImageBackground>
       </Animated.View>
   
-      {/* Main Content */}
-      <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Results</Text>
-          <BlurView intensity={30} tint="dark" style={styles.headerBlur}>
-            <Text style={styles.headerSubtitle}>Your personalized recommendations</Text>
+      <SafeAreaView className="flex-1" edges={['top', 'left', 'right']}>
+        <View className="px-5 pt-3 pb-4 mb-3">
+          <Text className="text-3xl font-bold text-white mb-2">Results</Text>
+          <BlurView intensity={30} tint="dark" className="self-start rounded-2xl overflow-hidden px-3.5 py-1.5">
+            <Text className="text-sm text-[rgba(255,255,255,0.8)]">Your personalized recommendations</Text>
           </BlurView>
         </View>
   
         {loading ? (
-          <View style={styles.loadingContainer}>
+          <View className="flex-1 justify-center items-center">
             <ActivityIndicator size="large" color="#ffffff" />
-            <Text style={styles.loadingText}>Finding perfect matches...</Text>
+            <Text className="mt-4 text-white text-base">Finding perfect matches...</Text>
           </View>
         ) : (
-          <View style={styles.contentContainer}>
+          <View className="flex-1">
             <Animated.ScrollView
-              contentContainerStyle={styles.scrollContent}
+              className="px-4 pt-2"
+              contentContainerStyle={{paddingHorizontal: 16, paddingTop: 8}}
               showsVerticalScrollIndicator={false}
               onScroll={Animated.event(
                 [{ nativeEvent: { contentOffset: { y: scrollY } } }],
@@ -103,11 +97,10 @@ export default function ViewResults() {
                   tags={result.tags}
                 />
               ))}
-              <View style={{ height: 120 }} />
+              <View className="h-[120px]" />
             </Animated.ScrollView>
   
-            {/* Bottom Bar */}
-            <View style={styles.bottomBarContainer}>
+            <View className="absolute bottom-0 left-0 right-0 h-[120px]">
               <LinearGradient
                 colors={[
                   'rgba(0,0,0,0)',
@@ -116,13 +109,13 @@ export default function ViewResults() {
                   'rgba(0,0,0,1)',
                 ]}
                 locations={[0, 0.2, 0.4, 0.8]}
-                style={styles.bottomGradient}
+                className="absolute h-[120px] w-full"
               />
-              <BlurView intensity={40} tint="dark" style={styles.bottomBlur}>
+              <BlurView intensity={40} tint="dark" className="flex-1 justify-center items-center">
                 <Link href="/" asChild>
-                  <TouchableOpacity style={styles.startAgainButton}>
+                  <TouchableOpacity className="bg-[#FFD700] py-3 px-6 rounded-full flex-row items-center shadow-lg">
                     <Feather name="refresh-cw" size={20} color="#000" style={{ marginRight: 8 }} />
-                    <Text style={styles.startAgainText}>Start Again</Text>
+                    <Text className="text-lg font-semibold text-black">Start Again</Text>
                   </TouchableOpacity>
                 </Link>
               </BlurView>
@@ -132,109 +125,4 @@ export default function ViewResults() {
       </SafeAreaView>
     </View>
   );
-  
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
-  backgroundContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-  },
-  backgroundImage: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    minHeight: Dimensions.get('window').height * 2,
-  },
-  backgroundGradient: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  safeArea: {
-    flex: 1,
-  },
-  header: {
-    paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 16,
-    marginBottom: 10,
-  },
-  headerTitle: {
-    fontSize: 34,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 8,
-  },
-  headerBlur: {
-    alignSelf: 'flex-start',
-    borderRadius: 16,
-    overflow: 'hidden',
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-  },
-  headerSubtitle: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    marginTop: 16,
-    color: 'white',
-    fontSize: 16,
-  },
-  contentContainer: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
-  },
-  bottomBarContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 120,
-  },
-  bottomGradient: {
-    position: 'absolute',
-    height: 120,
-    width: '100%',
-  },
-  bottomBlur: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  startAgainButton: {
-    backgroundColor: '#FFD700', // Bright gold color for visibility
-    paddingVertical: 12,
-    paddingHorizontal: 22,
-    borderRadius: 24,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: "#FFD700",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 8,
-  },
-  startAgainText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#000',
-  }
-});
