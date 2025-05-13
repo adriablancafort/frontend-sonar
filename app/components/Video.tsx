@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle } from 'react'
+import React, { forwardRef, useImperativeHandle, useEffect } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { VideoView, useVideoPlayer, VideoSource } from 'expo-video'
 
@@ -17,6 +17,12 @@ const Video = forwardRef<VideoHandle, VideoProps>(({ source, style, muted }, ref
     player.loop = true;
     player.play();
   });
+
+  useEffect(() => {
+    if (videoPlayer) {
+      videoPlayer.muted = muted ?? false;
+    }
+  }, [muted, videoPlayer]);
 
   useImperativeHandle(ref, () => ({
     setMuted: (muted: boolean) => {
