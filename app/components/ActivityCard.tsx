@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, Linking, StyleSheet, LayoutAnimation, Platform, UIManager, Animated } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView, Linking, StyleSheet, LayoutAnimation, Platform, UIManager, Animated, StatusBar, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 import Video from '@/app/components/Video';
@@ -61,6 +61,8 @@ export default function ActivityCard({
     setShowMoreDescription(!showMoreDescription);
   };
 
+  const statusBarOffset = Platform.OS === "android" ? StatusBar.currentHeight ?? 0 : 0;
+
   return (
     <View className="flex-1 relative w-full h-full bg-neutral-900">
       {/* Background Video */}
@@ -81,11 +83,16 @@ export default function ActivityCard({
       {/* Mute/Unmute button */}
       <TouchableOpacity 
         onPress={toggleMute}
-        className="absolute top-10 right-4 bg-black/60 rounded-full p-3"
-        style={{ elevation: 3 }}
+        className="absolute right-4 rounded-full p-3"
+        style={{ 
+          top: statusBarOffset + 10,
+          elevation: 3,
+          backgroundColor: `${dominantColor}AA`,
+        }}
       >
         <Feather name={isMuted ? "volume-x" : "volume-2"} size={22} color="white" />
       </TouchableOpacity>
+      
   
       {/* Bottom content container */}
       <View className="absolute bottom-0 left-0 right-0 p-5">
@@ -401,4 +408,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
   },
+  AndroidSafeArea: {
+    flex: 1,
+    backgroundColor: "black",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 30,
+  }
 });
