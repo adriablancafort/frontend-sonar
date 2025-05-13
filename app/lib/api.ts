@@ -1,5 +1,5 @@
 import { readFromStorage, writeToStorage } from '@/app/lib/storage';
-import { ScheduleOption, TagOption, Activity, Result } from '@/app/lib/types';
+import { ScheduleOption, TagOption, Activity, Swipe, Result } from '@/app/lib/types';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL || '';
 const QUIZ_ID_KEY = 'quiz_id';
@@ -68,8 +68,8 @@ export async function submitTagOptions(selectedIds: number[]): Promise<{ status:
     });
 }
 
-export async function getEssentialActivities(): Promise<string[]> {
-    return await apiRequest<string[]>('/activities');
+export async function getActivities(): Promise<Activity[]> {
+    return await apiRequest<Activity[]>('/activities');
 }
 
 export async function submitEssentialActivities(selectedIds: number[]): Promise<{ status: string }> {
@@ -80,8 +80,8 @@ export async function submitEssentialActivities(selectedIds: number[]): Promise<
     });
 }
 
-export async function getSwipes(): Promise<Activity[]> {
-    return await apiRequest<Activity[]>('/swipes', { includeQuizId: true });
+export async function getSwipes(): Promise<Swipe[]> {
+    return await apiRequest<Swipe[]>('/swipes', { includeQuizId: true });
 }
 
 export async function submitSwipesResults(acceptedIds: number[], rejectedIds: number[]): Promise<{ status: string }> {

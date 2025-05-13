@@ -17,7 +17,7 @@ import Animated, {
 import { Feather } from '@expo/vector-icons';
 import SwipeCard from '@/app/components/SwipeCard';
 import { getSwipes, submitSwipesResults } from '@/app/lib/api';
-import { Activity } from '@/app/lib/types';
+import { Swipe } from '@/app/lib/types';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -30,7 +30,7 @@ export default function SelectActivities() {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activities, setActivities] = useState<Swipe[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [acceptedIds, setAcceptedIds] = useState<number[]>([]);
   const [rejectedIds, setRejectedIds] = useState<number[]>([]);

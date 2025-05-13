@@ -14,7 +14,15 @@ export interface TagOption {
 }
 
 // Activities
+
 export interface Activity {
+  id: number;
+  title: string;
+  image_uri: string;
+}
+
+// Swipes
+export interface Swipe {
   id: number;
   title: string;
   description: string;
