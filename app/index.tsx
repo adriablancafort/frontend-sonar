@@ -15,7 +15,7 @@ export default function StartScreen() {
   return (
     <View className="flex-1 justify-center items-center px-12">
       <Image 
-        source={require('../assets/images/route.jpg')}
+        source={require('@/assets/images/route.jpg')}
         className="w-52 h-52 mb-12"
         resizeMode="contain"
       />

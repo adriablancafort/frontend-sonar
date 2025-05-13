@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "frontend-sonar",
-    "slug": "frontend-sonar",
+    "name": "mysonar",
+    "slug": "mysonar",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.adriablancafort.mysonar"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +38,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a4ff7929-5886-437b-a972-1b594357dd62"
+      }
     }
   }
 }
