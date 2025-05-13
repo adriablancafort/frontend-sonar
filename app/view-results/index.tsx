@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  ScrollView, 
   View, 
   Text, 
   TouchableOpacity, 
@@ -22,7 +21,6 @@ export default function ViewResults() {
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<Result[]>([]);
   const scrollY = useRef(new Animated.Value(0)).current;
-  const { width: screenWidth } = Dimensions.get('window');
   
   const backgroundTranslateY = scrollY.interpolate({
     inputRange: [0, 500],
