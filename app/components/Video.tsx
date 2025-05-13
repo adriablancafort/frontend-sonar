@@ -1,15 +1,23 @@
-import React, { forwardRef, useImperativeHandle, useEffect } from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
-import { VideoView, useVideoPlayer, VideoSource } from 'expo-video'
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+} from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
+import { VideoView, useVideoPlayer, VideoSource } from 'expo-video';
 
-interface VideoProps {
+// Props passed to the Video component
+export interface VideoProps {
   source: VideoSource;
   style?: StyleProp<ViewStyle>;
   muted?: boolean;
 }
 
+// Methods exposed via ref
 export interface VideoHandle {
   setMuted: (muted: boolean) => void;
+  pause: () => void;
+  play: () => void;
 }
 
 const Video = forwardRef<VideoHandle, VideoProps>(({ source, style, muted }, ref) => {
@@ -18,16 +26,22 @@ const Video = forwardRef<VideoHandle, VideoProps>(({ source, style, muted }, ref
     player.play();
   });
 
+  // Keep mute status in sync
   useEffect(() => {
-    if (videoPlayer) {
-      videoPlayer.muted = muted ?? false;
-    }
-  }, [muted, videoPlayer]);
+    videoPlayer.muted = muted ?? false;
+  }, [muted]);
 
+  // Expose play/pause/setMuted methods to parent
   useImperativeHandle(ref, () => ({
     setMuted: (muted: boolean) => {
       videoPlayer.muted = muted;
-    }
+    },
+    pause: () => {
+      videoPlayer.pause();
+    },
+    play: () => {
+      videoPlayer.play();
+    },
   }));
 
   return (

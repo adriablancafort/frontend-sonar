@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, Linking, StyleSheet, LayoutAnimation, Platform, UIManager, Animated, StatusBar, SafeAreaView } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, Image, TouchableOpacity, ScrollView, Linking, StyleSheet, LayoutAnimation, Platform, UIManager, Animated, StatusBar, SafeAreaView, Touchable, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
-import Video from '@/app/components/Video';
+import Video, { VideoHandle } from '@/app/components/Video';
 
 interface ActivityCardProps {
   title: string;
@@ -41,9 +41,21 @@ export default function ActivityCard({
   const [showMoreDescription, setShowMoreDescription] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [showArtistCard, setShowArtistCard] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
+  };
+
+  const videoRef = useRef<VideoHandle>(null);
+
+  const handlePress = () => {
+    if (isPlaying) {
+      videoRef.current?.pause();
+    } else {
+      videoRef.current?.play();
+    }
+    setIsPlaying(!isPlaying);
   };
 
   const toggleArtistCard = () => {
@@ -66,12 +78,15 @@ export default function ActivityCard({
   return (
     <View className="flex-1 relative w-full h-full bg-neutral-900">
       {/* Background Video */}
-      <Video 
-        source={{ uri: videoUri }}
-        style={{ position: 'absolute', width: '100%', height: '100%' }}
-        muted={isMuted}
-        // resizeMode="cover"
-      />
+      <Pressable onPress={handlePress} className="flex-1">
+        <Video 
+          ref={videoRef}
+          source={{ uri: videoUri }}
+          style={{ position: 'absolute', width: '100%', height: '100%' }}
+          muted={isMuted}
+        />
+      </Pressable>
+      
   
       {/* Video overlay gradient for better text visibility */}
       <LinearGradient
