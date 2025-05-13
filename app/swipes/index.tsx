@@ -15,7 +15,7 @@ import Animated, {
   Extrapolate
 } from 'react-native-reanimated';
 import { Feather } from '@expo/vector-icons';
-import ActivityCard from '@/app/components/ActivityCard';
+import SwipeCard from '@/app/components/SwipeCard';
 import { getSwipes, submitSwipesResults } from '@/app/lib/api';
 import { Activity } from '@/app/lib/types';
 
@@ -202,7 +202,7 @@ export default function SelectActivities() {
           <GestureDetector gesture={panGesture}>
             <Animated.View className="w-full h-full" style={cardStyle}>
 
-              <ActivityCard
+              <SwipeCard
                 title={activities[currentIndex].title}
                 description={activities[currentIndex].description}
                 videoUri={activities[currentIndex].video_uri}
