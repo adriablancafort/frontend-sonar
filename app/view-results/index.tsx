@@ -99,26 +99,32 @@ export default function ViewResults() {
               ))}
               <View className="h-[120px]" />
             </Animated.ScrollView>
-  
-            <View className="absolute bottom-0 left-0 right-0 h-[120px]">
+
+            <View className="absolute bottom-0 left-0 right-0">
               <LinearGradient
                 colors={[
                   'rgba(0,0,0,0)',
                   'rgba(0,0,0,0.7)',
                   'rgba(0,0,0,0.97)',
-                  'rgba(0,0,0,1)',
+                  'rgba(0,0,0,1)'
                 ]}
                 locations={[0, 0.2, 0.4, 0.8]}
-                className="absolute h-[120px] w-full"
+                style={{
+                  position: 'absolute',
+                  height: 160,
+                  width: '100%',
+                  bottom: 0
+                }}
               />
-              <BlurView intensity={40} tint="dark" className="flex-1 justify-center items-center">
+              
+              <View className="items-center pb-20 pt-4">
                 <Link href="/" asChild>
                   <TouchableOpacity className="bg-[#FFD700] py-3 px-6 rounded-full flex-row items-center shadow-lg">
                     <Feather name="refresh-cw" size={20} color="#000" style={{ marginRight: 8 }} />
                     <Text className="text-lg font-semibold text-black">Start Again</Text>
                   </TouchableOpacity>
                 </Link>
-              </BlurView>
+              </View>
             </View>
           </View>
         )}
