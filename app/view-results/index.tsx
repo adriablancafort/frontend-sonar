@@ -51,7 +51,7 @@ export default function ViewResults() {
         ]}
       >
         <ImageBackground
-          source={require('./assets/fons_results.jpg')}
+          source={require('@/assets/images/background-results.jpg')}
           style={styles.backgroundImage}
         >
           <LinearGradient
