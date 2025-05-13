@@ -40,7 +40,7 @@ export default function ActivityCard({
 }: ActivityCardProps) {
   const [showMoreDescription, setShowMoreDescription] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [showArtistCard, setShowArtistCard] = useState(false);
+  const [showArtistCard, setShowArtistCard] = useState(true);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
