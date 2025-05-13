@@ -58,7 +58,7 @@ export default function ViewResults() {
         <View className="px-5 pt-3 pb-4 mb-3">
           <Text className="text-3xl font-bold text-white mb-2">Results</Text>
           <BlurView intensity={30} tint="dark" className="self-start rounded-2xl overflow-hidden px-3.5 py-1.5">
-            <Text className="text-sm text-[rgba(255,255,255,0.8)]">Your personalized recommendations</Text>
+            <Text className="text-neutral-300 text-xl">Your personalized recommendations</Text>
           </BlurView>
         </View>
   

@@ -110,7 +110,7 @@ export default function SelectActivitiesScreen() {
                 ))
               ) : (
                 <View className="flex-1 items-center justify-center py-10">
-                  <Text className="text-gray-400 text-lg">No activities found</Text>
+                  <Text className="text-gray-300 text-lg">No activities found</Text>
                 </View>
               )}
             </ScrollView>
