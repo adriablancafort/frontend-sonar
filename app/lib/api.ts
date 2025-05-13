@@ -72,6 +72,18 @@ export async function getEssentialActivities(): Promise<string[]> {
     return await apiRequest<string[]>('/activities');
 }
 
+export async function submitEssentialActivities(selectedIds: number[]): Promise<{ status: string }> {
+    return await apiRequest<{ status: string }>('/activities', {
+      method: 'POST',
+      body: { selected_ids: selectedIds },
+      includeQuizId: true,
+    });
+}
+
+export async function getSwipes(): Promise<Activity[]> {
+    return await apiRequest<Activity[]>('/swipes', { includeQuizId: true });
+}
+
 export async function submitSwipesResults(acceptedIds: number[], rejectedIds: number[]): Promise<{ status: string }> {
     return await apiRequest<{ status: string }>('/swipes', {
         method: 'POST',
