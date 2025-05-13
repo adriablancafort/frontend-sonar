@@ -68,12 +68,12 @@ export async function submitTagOptions(selectedIds: number[]): Promise<{ status:
     });
 }
 
-export async function getActivities(): Promise<Activity[]> {
-    return await apiRequest<Activity[]>('/activities', { includeQuizId: true });
+export async function getEssentialActivities(): Promise<string[]> {
+    return await apiRequest<string[]>('/activities');
 }
 
-export async function submitActivityResults(acceptedIds: number[], rejectedIds: number[]): Promise<{ status: string }> {
-    return await apiRequest<{ status: string }>('/activities', {
+export async function submitSwipesResults(acceptedIds: number[], rejectedIds: number[]): Promise<{ status: string }> {
+    return await apiRequest<{ status: string }>('/swipes', {
         method: 'POST',
         body: { accepted_ids: acceptedIds, rejected_ids: rejectedIds },
         includeQuizId: true

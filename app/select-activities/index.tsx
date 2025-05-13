@@ -16,7 +16,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Feather } from '@expo/vector-icons';
 import ActivityCard from '@/app/components/ActivityCard';
-import { getActivities, submitActivityResults } from '@/app/lib/api';
+import { getSwipes, submitSwipesResults } from '@/app/lib/api';
 import { Activity } from '@/app/lib/types';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -44,7 +44,7 @@ export default function SelectActivities() {
 
   useEffect(() => {
     (async () => {
-      const data = await getActivities();
+      const data = await getSwipes();
       setActivities(data);
       setLoading(false);
     })();
@@ -53,7 +53,7 @@ export default function SelectActivities() {
   useEffect(() => {
     if (activities.length > 0 && currentIndex === activities.length) {
       (async () => {
-        await submitActivityResults(acceptedIds, rejectedIds);
+        await submitSwipesResults(acceptedIds, rejectedIds);
         router.push('/view-results');
       })();
     }
