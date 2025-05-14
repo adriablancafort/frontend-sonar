@@ -60,6 +60,10 @@ export default function ScheduleCard({
     }
   };
 
+  const borderColor = isSelected ? 'border-black/20' : 'border-white/30';
+  const pillBgColor = isSelected ? 'bg-black/10' : 'bg-blue-900';
+  const iconPillBgColor = isSelected ? 'bg-black/10' : 'bg-blue-900';
+
   return (
     <Pressable
       onPress={onPress}
@@ -71,21 +75,36 @@ export default function ScheduleCard({
         className={`w-full rounded-full overflow-hidden ${getBackgroundColor()}`}
         style={{ transform: [{ scale: scaleAnim }] }}
       >
-        <View className="flex-row justify-between items-center">
-          <View className="flex-row items-center py-3 pl-8 pr-4">
-            <Text className={`font-semibold text-lg mr-4 ${isSelected ? 'text-black' : 'text-white'}`}>
-              {getDayDots(day).join(' ')}
-            </Text>
-            <View className={`h-8 w-8 rounded-full items-center justify-center ${'bg-black/15'}`}>
-              <FontAwesome5
-                name={getTimeIcon(type)}
-                size={14}
-                color={isSelected ? "black" : "white"}
-              />
+        <View className="flex-row justify-between items-center py-3">
+          <View className="flex-row items-center pl-6">
+            {/* Schedule Pill Container */}
+            <View className={`flex-row items-center rounded-full border ${borderColor} ${pillBgColor} pl-4 pr-0`}>
+              {/* Dots */}
+              <Text className={`font-semibold text-lg ${isSelected ? 'text-black' : 'text-white'}`}>
+                {getDayDots(day).join(' ')}
+              </Text>
+              
+              {/* Icon Pill */}
+              <View className={`h-8 w-8 rounded-full items-center justify-center border ${borderColor} ${iconPillBgColor} ml-3`}>
+                <FontAwesome5
+                  name={getTimeIcon(type)}
+                  size={14}
+                  color={isSelected ? "black" : "white"}
+                />
+              </View>
+            </View>
+            
+            {/* Day and Time text below the pill */}
+            <View className="ml-3">
+              <Text className={`text-xs ${isSelected ? 'text-black' : 'text-white/70'}`}>
+                {day} {timeOfDay}
+              </Text>
             </View>
           </View>
+          
+          {/* Date on the right */}
           <Text className={`text-base pr-8 ${isSelected ? 'text-black' : 'text-white'}`}>
-            {day} {timeOfDay}
+            {date}
           </Text>
         </View>
       </Animated.View>
