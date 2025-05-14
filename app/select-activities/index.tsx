@@ -4,10 +4,12 @@ import { useRouter } from 'expo-router';
 import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { CopilotProvider, CopilotStep, walkthroughable } from 'react-native-copilot';
 import { getActivities, submitEssentialActivities } from '@/app/lib/api';
 import { Activity } from '@/app/lib/types';
 import ActivityCard from '@/app/components/ActivityCard';
+
+const WalkthroughableView = walkthroughable(View);
 
 export default function SelectActivitiesScreen() {
   const router = useRouter();
@@ -101,12 +103,20 @@ export default function SelectActivitiesScreen() {
             >
               {filteredActivities.length > 0 ? (
                 filteredActivities.map((activity) => (
-                  <ActivityCard
-                    key={activity.id}
-                    activity={activity}
-                    selected={selectedActivities.includes(activity.id)}
-                    onPress={() => toggleActivitySelection(activity.id)}
-                  />
+                  <CopilotStep
+                    text="Tap an activity to mark it as essential."
+                    order={1}
+                    name="activityStep"
+                  >
+                    <WalkthroughableView>
+                      <ActivityCard
+                        key={activity.id}
+                        activity={activity}
+                        selected={selectedActivities.includes(activity.id)}
+                        onPress={() => toggleActivitySelection(activity.id)}
+                      />
+                    </WalkthroughableView>
+                    </CopilotStep>
                 ))
               ) : (
                 <View className="flex-1 items-center justify-center py-10">
