@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { Text, Pressable, Animated } from 'react-native';
+import { Text, Pressable, Animated, View } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 interface ScheduleCardProps {
   title: string;
@@ -12,12 +13,13 @@ interface ScheduleCardProps {
 export default function ScheduleCard({ 
   title, 
   date,
-  type,
+  type, // day or night
   isSelected = false, 
   onPress 
 }: ScheduleCardProps) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
-  
+  const [day, timeOfDay] = title.split(' ');
+
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
       toValue: 0.95,
@@ -33,6 +35,23 @@ export default function ScheduleCard({
     }).start();
   };
 
+  const getDayDots = (day: string) => {
+    switch (day.toLowerCase()) {
+      case 'thursday':
+        return ['●', '○', '○'];
+      case 'friday':
+        return ['●', '●', '○'];
+      case 'saturday':
+        return ['●', '●', '●'];
+      default:
+        return ['○', '○', '○'];
+    }
+  };
+
+  const getTimeIcon = (type: string) => {
+    return type.toLowerCase() === 'night' ? 'moon' : 'sun';
+  };
+
   const getBackgroundColor = () => {
     if (isSelected) {
       return type === 'day' ? 'bg-yellow-400' : 'bg-yellow-400';
@@ -46,25 +65,29 @@ export default function ScheduleCard({
       onPress={onPress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
+      className="mb-3"
     >
-      <Animated.View 
-        className={`w-full h-20 rounded-lg px-8 flex-row justify-between items-center ${getBackgroundColor()}`}
+      <Animated.View
+        className={`w-full rounded-full overflow-hidden ${getBackgroundColor()}`}
         style={{ transform: [{ scale: scaleAnim }] }}
       >
-        <Text 
-          className={`font-semibold text-xl ${
-            isSelected ? 'text-black' : 'text-white'
-          }`}
-        >
-          {title}
-        </Text>
-        <Text 
-          className={`text-xl ${
-            isSelected ? 'text-black' : 'text-white'
-          }`}
-        >
-          {date}
-        </Text>
+        <View className="flex-row justify-between items-center">
+          <View className="flex-row items-center py-3 pl-8 pr-4">
+            <Text className={`font-semibold text-lg mr-4 ${isSelected ? 'text-black' : 'text-white'}`}>
+              {getDayDots(day).join(' ')}
+            </Text>
+            <View className={`h-8 w-8 rounded-full items-center justify-center ${'bg-black/15'}`}>
+              <FontAwesome5
+                name={getTimeIcon(type)}
+                size={14}
+                color={isSelected ? "black" : "white"}
+              />
+            </View>
+          </View>
+          <Text className={`text-base pr-8 ${isSelected ? 'text-black' : 'text-white'}`}>
+            {day} {timeOfDay}
+          </Text>
+        </View>
       </Animated.View>
     </Pressable>
   );

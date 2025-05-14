@@ -8,7 +8,6 @@ import { getScheduleOptions, submitScheduleOptions } from '@/app/lib/api';
 
 export default function SelectSchedule() {
   const router = useRouter();
-
   const [loading, setLoading] = useState(true);
   const [scheduleOptions, setScheduleOptions] = useState<ScheduleOption[]>([]);
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
