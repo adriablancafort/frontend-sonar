@@ -187,14 +187,14 @@ export default function SelectActivities() {
         <>
           <Animated.View 
             style={rejectButtonStyle}
-            className="absolute left-3 z-10 bg-red-500 rounded-full p-4"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-red-500 rounded-full p-4"
           >
             <Feather name="x" size={30} color="white" />
           </Animated.View>
           
           <Animated.View 
             style={acceptButtonStyle}
-            className="absolute right-3 z-10 bg-green-500 rounded-full p-4"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-green-500 rounded-full p-4"
           >
             <Feather name="check" size={30} color="white" />
           </Animated.View>
