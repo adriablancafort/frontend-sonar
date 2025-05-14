@@ -1,5 +1,5 @@
 import { readFromStorage, writeToStorage } from '@/app/lib/storage';
-import { ScheduleOption, TagOption, Activity, Result } from '@/app/lib/types';
+import { ScheduleOption, TagOption, Activity, Swipe, Result } from '@/app/lib/types';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL || '';
 const QUIZ_ID_KEY = 'quiz_id';
@@ -69,11 +69,23 @@ export async function submitTagOptions(selectedIds: number[]): Promise<{ status:
 }
 
 export async function getActivities(): Promise<Activity[]> {
-    return await apiRequest<Activity[]>('/activities', { includeQuizId: true });
+    return await apiRequest<Activity[]>('/activities');
 }
 
-export async function submitActivityResults(acceptedIds: number[], rejectedIds: number[]): Promise<{ status: string }> {
+export async function submitEssentialActivities(selectedIds: number[]): Promise<{ status: string }> {
     return await apiRequest<{ status: string }>('/activities', {
+      method: 'POST',
+      body: { selected_ids: selectedIds },
+      includeQuizId: true,
+    });
+}
+
+export async function getSwipes(): Promise<Swipe[]> {
+    return await apiRequest<Swipe[]>('/swipes', { includeQuizId: true });
+}
+
+export async function submitSwipesResults(acceptedIds: number[], rejectedIds: number[]): Promise<{ status: string }> {
+    return await apiRequest<{ status: string }>('/swipes', {
         method: 'POST',
         body: { accepted_ids: acceptedIds, rejected_ids: rejectedIds },
         includeQuizId: true
