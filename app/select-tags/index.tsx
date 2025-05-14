@@ -47,8 +47,11 @@ export default function SelectTags() {
         <ActivityIndicator size="small" color="#ffffff" />
       ) : (
         <>
-          <Text className="text-white text-3xl font-bold mb-12">
+          <Text className="text-white text-3xl font-bold mb-1 mt-12">
             What defines you best?
+          </Text>
+          <Text className="text-white text-3x mb-9">
+            Select as many as you want
           </Text>
           
           <View className="mb-12">
