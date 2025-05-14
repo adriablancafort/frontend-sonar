@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView, Linking, StyleSheet, LayoutAnimation, Platform, UIManager, Animated } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, Image, TouchableOpacity, Pressable, StatusBar, Linking, StyleSheet, LayoutAnimation, Platform, UIManager, Animated } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
-import Video from '@/app/components/Video';
+import Video, { VideoHandle } from '@/app/components/Video';
 
 interface ActivityCardProps {
   title: string;
@@ -40,10 +40,22 @@ export default function ActivityCard({
 }: ActivityCardProps) {
   const [showMoreDescription, setShowMoreDescription] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [showArtistCard, setShowArtistCard] = useState(false);
+  const [showArtistCard, setShowArtistCard] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
+  };
+
+  const videoRef = useRef<VideoHandle>(null);
+
+  const handlePress = () => {
+    if (isPlaying) {
+      videoRef.current?.pause();
+    } else {
+      videoRef.current?.play();
+    }
+    setIsPlaying(!isPlaying);
   };
 
   const toggleArtistCard = () => {
@@ -61,15 +73,19 @@ export default function ActivityCard({
     setShowMoreDescription(!showMoreDescription);
   };
 
+  const statusBarOffset = Platform.OS === "android" ? StatusBar.currentHeight ?? 0 : 0;
+
   return (
     <View className="flex-1 relative w-full h-full bg-neutral-900">
       {/* Background Video */}
-      <Video 
-        source={{ uri: videoUri }}
-        style={{ position: 'absolute', width: '100%', height: '100%' }}
-        muted={isMuted}
-        // resizeMode="cover"
-      />
+      <Pressable onPress={handlePress} className="flex-1">
+        <Video 
+          ref={videoRef}
+          source={{ uri: videoUri }}
+          style={{ position: 'absolute', width: '100%', height: '100%' }}
+          muted={isMuted}
+        />
+      </Pressable>
   
       {/* Video overlay gradient for better text visibility */}
       <LinearGradient
@@ -81,8 +97,12 @@ export default function ActivityCard({
       {/* Mute/Unmute button */}
       <TouchableOpacity 
         onPress={toggleMute}
-        className="absolute top-10 right-4 bg-black/60 rounded-full p-3"
-        style={{ elevation: 3 }}
+        className="absolute right-4 rounded-full p-3"
+        style={{ 
+          top: statusBarOffset + 10,
+          elevation: 3,
+          backgroundColor: `${dominantColor}AA`,
+        }}
       >
         <Feather name={isMuted ? "volume-x" : "volume-2"} size={22} color="white" />
       </TouchableOpacity>
@@ -190,7 +210,7 @@ export default function ActivityCard({
                 </View>
               </View>
             ) : (
-              // 🔹 Collapsed View
+              // Collapsed View
               <View className="relative">
                 <View className="flex-row space-x-4">
                   {/* Left Image */}
