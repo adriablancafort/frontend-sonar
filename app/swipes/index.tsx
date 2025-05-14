@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState, useEffect, useCallback } from 'react';
 import { Dimensions, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -41,6 +42,35 @@ export default function SelectActivities() {
   const rotation = useSharedValue(0);
   const cardScale = useSharedValue(1);
   const isAnimating = useSharedValue(false);
+  const [isMuted, setIsMuted] = useState(false);
+
+  // Load mute preference when component mounts
+  useEffect(() => {
+    const loadMutePreference = async () => {
+      try {
+        const savedPreference = await AsyncStorage.getItem('@app_mute_preference');
+        if (savedPreference !== null) {
+          setIsMuted(savedPreference === 'true');
+        }
+      } catch (error) {
+        console.log('Error loading mute preference:', error);
+      }
+    };
+    
+    loadMutePreference();
+  }, []);
+
+  // Save mute preference when it changes
+  const toggleMute = async () => {
+    const newMuteState = !isMuted;
+    setIsMuted(newMuteState);
+    
+    try {
+      await AsyncStorage.setItem('@app_mute_preference', String(newMuteState));
+    } catch (error) {
+      console.log('Error saving mute preference:', error);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -201,7 +231,6 @@ export default function SelectActivities() {
 
           <GestureDetector gesture={panGesture}>
             <Animated.View className="w-full h-full" style={cardStyle}>
-
               <SwipeCard
                 title={activities[currentIndex].title}
                 description={activities[currentIndex].description}
@@ -214,6 +243,8 @@ export default function SelectActivities() {
                 dominantColor={activities[currentIndex].dominant_color}
                 darkColor={activities[currentIndex].dark_color}
                 pastelColor={activities[currentIndex].pastel_color}
+                isMuted={isMuted}
+                onToggleMute={toggleMute}
               />
             </Animated.View>
           </GestureDetector>

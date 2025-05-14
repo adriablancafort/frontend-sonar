@@ -16,6 +16,8 @@ interface ActivityCardProps {
   dominantColor?: string;
   darkColor?: string;
   pastelColor?: string;
+  isMuted?: boolean;
+  onToggleMute?: () => void;
 }
 
 if (
@@ -37,15 +39,12 @@ export default function ActivityCard({
   dominantColor = "#7a85ff",
   darkColor = "#4a5bff",
   pastelColor = "#a3b2ff",
+  isMuted,
+  onToggleMute,
 }: ActivityCardProps) {
   const [showMoreDescription, setShowMoreDescription] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
   const [showArtistCard, setShowArtistCard] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
-
-  const toggleMute = () => {
-    setIsMuted(!isMuted);
-  };
 
   const videoRef = useRef<VideoHandle>(null);
 
@@ -75,6 +74,12 @@ export default function ActivityCard({
 
   const statusBarOffset = Platform.OS === "android" ? StatusBar.currentHeight ?? 0 : 0;
 
+  const handleToggleMute = () => {
+    if (onToggleMute) {
+      onToggleMute();
+    }
+  };
+
   return (
     <View className="flex-1 relative w-full h-full bg-neutral-900">
       {/* Background Video */}
@@ -96,7 +101,7 @@ export default function ActivityCard({
   
       {/* Mute/Unmute button */}
       <TouchableOpacity 
-        onPress={toggleMute}
+        onPress={handleToggleMute}
         className="absolute right-4 rounded-full p-3"
         style={{ 
           top: statusBarOffset + 10,
