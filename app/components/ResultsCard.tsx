@@ -9,7 +9,8 @@ import {
   LayoutAnimation, 
   Platform, 
   UIManager,
-  Linking
+  Linking,
+  ScrollView
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
@@ -140,77 +141,63 @@ export default function ResultsCard({
   return (
     <>
       <Animated.View 
-        className="mx-4 my-2 shadow-lg rounded-xl"
-        style={{ 
-          transform: [{ scale: animatedScale }],
-          opacity: animatedOpacity
-        }}
+        style={[
+          styles.cardContainer,
+          { 
+            transform: [{ scale: animatedScale }],
+            opacity: animatedOpacity
+          }
+        ]}
       >
         {/* Glow effect */}
         <Animated.View 
-          className="absolute inset-0 rounded-xl"
-          style={{ 
-            backgroundColor: darkColor,
-            opacity: glowOpacity,
-            shadowColor: dominantColor,
-            shadowRadius: 20,
-            shadowOpacity: 0.8
-          }} 
+          style={[
+            styles.glowEffect,
+            { 
+              backgroundColor: darkColor,
+              opacity: glowOpacity,
+              shadowColor: dominantColor
+            }
+          ]} 
         />
         
         {/* Card content with blur */}
-        <BlurView intensity={40} tint="dark" className="overflow-hidden rounded-3xl">
+        <BlurView intensity={40} tint="dark" style={styles.blurContainer}>
           <TouchableOpacity 
             activeOpacity={0.9}
             onPress={toggleExpand}
-            className="overflow-hidden"
-            style={{ 
-              borderColor: `${dominantColor}40`, 
-              backgroundColor: `${darkColor}40`,
-              borderWidth: 1
-            }}
+            style={[
+              styles.cardContent,
+              { borderColor: `${dominantColor}40`, backgroundColor: `${darkColor}40` }
+            ]}
           >
             {!expanded ? (
               // Collapsed view
-              <View className="flex-row p-3">
+              <View style={styles.rowContainer}>
                 {/* Image */}
-                <View className="w-20 h-20 mr-3 justify-center">
+                <View style={styles.imageContainer}>
                   <Image
                     source={{ uri: imageUri }}
-                    className="w-full h-full rounded-2xl"
-                    style={{ 
-                      borderColor: dominantColor, 
-                      borderWidth: 0 
-                    }}
+                    style={[
+                      styles.image,
+                      { borderColor: dominantColor, borderWidth: 0 }
+                    ]}
                     resizeMode="cover"
                   />
                 </View>
                 
                 {/* Content */}
-                <View className="flex-1">
-                  <Text className="text-white font-bold text-base mb-1" numberOfLines={1}>{title}</Text>
-                  <Text className="text-gray-300 text-sm mb-2" numberOfLines={3}>{description}</Text>
+                <View style={styles.contentContainer}>
+                  <Text style={styles.title} numberOfLines={1}>{title}</Text>
+                  <Text style={styles.description} numberOfLines={3}>{description}</Text>
 
-                  <View className="flex-row justify-between items-center">
-                    <View className="flex-1">
-                      <View 
-                        className="flex-row items-center py-1 px-2 rounded-full"
-                        style={{ 
-                          borderColor: `${dominantColor}40`, 
-                          backgroundColor: `${darkColor}BB`,
-                          borderWidth: 1
-                        }}
-                      >
-                        <Text className="text-white text-xs mr-2">{getDayDots(day).join(' ')}</Text>
+                  
+                  <View style={styles.scheduleRow}>
+                    <View style={styles.scheduleCodeContainer}>
+                      <View style={[styles.schedulePill, { borderColor: `${dominantColor}40`, backgroundColor: `${darkColor}BB` }]}>
+                        <Text style={styles.dotsText}>{getDayDots(day).join(' ')}</Text>
                         
-                        <View 
-                          className="w-5 h-5 rounded-full items-center justify-center ml-auto"
-                          style={{ 
-                            borderColor: `${dominantColor}40`, 
-                            backgroundColor: `${darkColor}CC`,
-                            borderWidth: 1
-                          }}
-                        >
+                        <View style={[styles.iconPill, { borderColor: `${dominantColor}40`, backgroundColor: `${darkColor}CC` }]}>
                           <FontAwesome5
                             name={getTimeIcon(timeOfDay)}
                             size={12}
@@ -222,77 +209,73 @@ export default function ResultsCard({
 
                     <TouchableOpacity 
                       onPress={toggleExpand}
-                      className="w-7 h-7 rounded-full items-center justify-center ml-2"
-                      style={{ 
-                        backgroundColor: `${darkColor}BB`, 
-                        borderColor: `${dominantColor}40`,
-                        borderWidth: 1
-                      }}
+                      style={[styles.chevronButton, { backgroundColor: `${darkColor}BB`, borderColor: `${dominantColor}40` }]}
                     >
                       <Feather name="chevron-down" size={16} color="white" />
                     </TouchableOpacity>
                   </View>
+
                 </View>
+
               </View>
             ) : (
               // Expanded view
-              <View className="w-full">
+              <View style={styles.expandedContainer}>
                 {/* Full width image */}
                 <Image
                   source={{ uri: imageUri }}
-                  className="w-full h-40"
+                  style={styles.expandedImage}
                   resizeMode="cover"
                 />
                 
                 {/* Content overlay with gradient */}
-                <View className="p-4">
-                  <View className="flex-row justify-between items-center mb-3">
-                    <Text className="text-white font-bold text-lg">{title}</Text>
+                <View style={styles.expandedContentContainer}>
+                  <View style={[styles.expandedTitleBar]}>
+                    <Text style={styles.expandedTitle}>{title}</Text>
                     
                     <TouchableOpacity 
                       onPress={toggleExpand}
-                      className="w-8 h-8 rounded-full items-center justify-center"
-                      style={{ backgroundColor: dominantColor }}
+                      style={[styles.closeButton, { backgroundColor: dominantColor }]}
                     >
                       <Feather name="chevron-up" size={20} color="white" />
                     </TouchableOpacity>
                   </View>
                   
                   {/* Time and schedule badges */}
-                  <View className="flex-row mb-3">
-                    <View className="flex-row items-center py-1 px-3 rounded-full mr-2" style={{ backgroundColor: `${dominantColor}CC` }}>
+                  <View style={styles.badgeContainer}>
+                    <View style={[styles.badge, { backgroundColor: `${dominantColor}CC` }]}>
                       <Feather name="clock" size={14} color="white" />
-                      <Text className="text-white text-xs ml-1">{timeInfo}</Text>
+                      <Text style={styles.badgeText}>{timeInfo}</Text>
                     </View>
                     
-                    <View className="flex-row items-center py-1 px-3 rounded-full" style={{ backgroundColor: `${dominantColor}CC` }}>
+                    <View style={[styles.badge, { backgroundColor: `${dominantColor}CC` }]}>
                       <Feather name="calendar" size={14} color="white" />
-                      <Text className="text-white text-xs ml-1">{schedule}</Text>
+                      <Text style={styles.badgeText}>{schedule}</Text>
                     </View>
                   </View>
                   
                   {/* Full description */}
-                  <View className="mb-4">
-                    <Text className="text-gray-300 text-sm">{description}</Text>
+                  <View style={styles.expandedDescriptionContainer}>
+                    <Text style={styles.expandedDescription}>{description}</Text>
                   </View>
                   
                   {/* Action buttons */}
-                  <View className="flex-row justify-between">
+                  <View
+                    style={styles.actionButtonsContainer}
+                  >
                     <TouchableOpacity 
-                      onPress={() => Linking.openURL(activityUri)}
-                      className="flex-row items-center py-2 px-4 rounded-full mr-2 flex-1 justify-center"
-                      style={{ backgroundColor: darkColor }}
+                      onPress={() => Linking.openURL( activityUri )}
+                      style={[styles.actionButton, { backgroundColor: darkColor }]}
                     >
                       <Feather name="info" size={16} color="white" />
-                      <Text className="text-white text-sm ml-2">More Info</Text>
+                      <Text style={styles.actionButtonText}>More Info</Text>
                     </TouchableOpacity>
                     
                     <TouchableOpacity 
-                      className="flex-row items-center py-2 px-4 rounded-full ml-2 flex-1 justify-center"
-                      style={{ backgroundColor: dominantColor }}
+                      style={[styles.actionButton, { backgroundColor: dominantColor }]}
                     >
                       <Feather name="calendar" size={16} color="white" />
-                      <Text className="text-white text-sm ml-2">Add to Schedule</Text>
+                      <Text style={styles.actionButtonText}>Add to Schedule</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -300,21 +283,31 @@ export default function ResultsCard({
             )}
           </TouchableOpacity>
         </BlurView>
+
       </Animated.View>
 
       {/* Tags below the card */}
       {tags.length > 0 && (
-        <View style={styles.tagContainerWrapper}>
-          <View style={styles.tagContainer}>
+        <View className="mx-4 mb-4">
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingRight: 16 }}
+          >
             {tags.map((tag, index) => (
               <View 
                 key={index} 
-                style={[styles.tagPill, { backgroundColor: `${darkColor}CC` }, { borderColor: `${dominantColor}40`, borderWidth: 2 }]}
+                className="py-1 px-3 rounded-full mr-2"
+                style={{ 
+                  backgroundColor: `${darkColor}CC`,
+                  borderColor: `${dominantColor}40`, 
+                  borderWidth: 2 
+                }}
               >
-                <Text style={styles.tagText}>{tag}</Text>
+                <Text className="text-white text-s">{tag}</Text>
               </View>
             ))}
-          </View>
+          </ScrollView>
         </View>
       )}
     </>
@@ -491,7 +484,7 @@ const styles = StyleSheet.create({
   actionButtonText: {
     color: 'white',
     fontWeight: '600',
-    fontSize: 12,
+    fontSize: 14,
   },
   tagPill: {
     paddingHorizontal: 14,
