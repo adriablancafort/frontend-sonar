@@ -20,6 +20,7 @@ export interface Activity {
   title: string;
   image_uri: string;
   dark_color: string;
+  type: string; // day or night
 }
 
 // Swipes

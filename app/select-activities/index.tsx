@@ -65,7 +65,7 @@ export default function SelectActivitiesScreen() {
   };
 
   return (
-    <View className="flex-1 bg-black">const [showSearchResults, setShowSearchResults] = useState(false);
+    <View className="flex-1 bg-black">
 
       <SafeAreaView className="flex-1" edges={['top', 'left', 'right']}>
         {loading ? (

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { View, Text, Pressable, Animated, Image } from 'react-native';
 import { Activity } from '@/app/lib/types';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -10,10 +11,11 @@ interface ActivityCardProps {
 
 const ActivityCard = ({ activity, selected, onPress }: ActivityCardProps) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
+  const [day, timeOfDay] = activity.title.split(' ');
   
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
-      toValue: 0.98,
+      toValue: 0.99,
       useNativeDriver: true,
     }).start();
   };
@@ -22,9 +24,29 @@ const ActivityCard = ({ activity, selected, onPress }: ActivityCardProps) => {
     Animated.spring(scaleAnim, {
       toValue: 1,
       useNativeDriver: true,
-      friction: 4,
+      friction: 7,
     }).start();
   };
+
+  const getDayDots = (day: string) => {
+    switch (day.toLowerCase()) {
+      case 'thursday':
+        return ['●', '○', '○'];
+      case 'friday':
+        return ['●', '●', '○'];
+      case 'saturday':
+        return ['●', '●', '●'];
+      default:
+        return ['○', '○', '○'];
+    }
+  };
+
+  const getTimeIcon = (type: string) => {
+    return type?.toLowerCase() === 'night' ? 'moon' : 'sun';
+  };
+
+  const borderColor = selected ? 'border-black/20' : 'border-white/30';
+  const textColor = selected ? 'text-black' : 'text-white';
 
   return (
     <Pressable
@@ -33,13 +55,14 @@ const ActivityCard = ({ activity, selected, onPress }: ActivityCardProps) => {
       onPressOut={handlePressOut}
     >
       <Animated.View 
-        className={`flex-row p-4 mb-3 rounded-2xl ${selected ? 'bg-yellow-400' : 'bg-gray-800'}`}
+        className={`flex-row items-center p-4 mb-3 rounded-3xl`}
         style={{ 
           transform: [{ scale: scaleAnim }],
           backgroundColor: selected ? '#facc15' : activity.dark_color || '#1f2937'
         }}
       >
-        <View className={`w-16 h-16 rounded-full overflow-hidden mr-3 border-2 ${selected ? 'border-black' : 'border-white'}`}>
+        {/* Activity Image */}
+        <View className={`w-16 h-16 rounded-full overflow-hidden mr-3 border-2 ${borderColor}`}>
           <Image
             source={{ uri: activity.image_uri }}
             className="w-full h-full"
@@ -47,14 +70,36 @@ const ActivityCard = ({ activity, selected, onPress }: ActivityCardProps) => {
           />
         </View>
 
-        <View className="flex-1 justify-center">
+        {/* Activity Info */}
+        <View className="flex-1">
           <Text 
-            className={`text-lg font-medium ${selected ? 'text-black' : 'text-white'}`}
+            className={`text-lg font-medium ${textColor}`}
             numberOfLines={1}
             ellipsizeMode="tail"
           >
             {activity.title}
           </Text>
+          
+          {/* Day/Night Indicator */}
+          {day && (
+            <View className="flex-row items-center mt-1">
+              <View className={`flex-row items-center rounded-full border ${borderColor} bg-black/10 px-2 py-1`}>
+                {/* Day Dots */}
+                <Text className={`text-xs ${textColor} mr-1`}>
+                  {getDayDots(day).join(' ')}
+                </Text>
+                
+                {/* Time Icon */}
+                <View className={`h-5 w-5 rounded-full items-center justify-center border ${borderColor} bg-black/15`}>
+                  <FontAwesome5
+                    name={getTimeIcon(activity.type)}
+                    size={10}
+                    color={selected ? "black" : "white"}
+                  />
+                </View>
+              </View>
+            </View>
+          )}
         </View>
       </Animated.View>
     </Pressable>
