@@ -288,11 +288,15 @@ export default function ResultsCard({
 
       {/* Tags below the card */}
       {tags.length > 0 && (
-        <View className="mx-4 mb-4">
+        <View className="mb-8 w-full">
           <ScrollView 
             horizontal 
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingRight: 16 }}
+            className="w-full"
+            contentContainerStyle={{ 
+              paddingLeft: 16,
+              paddingRight: 16,
+            }}
           >
             {tags.map((tag, index) => (
               <View 
