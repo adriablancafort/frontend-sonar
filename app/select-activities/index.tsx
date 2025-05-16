@@ -181,8 +181,6 @@ export default function SelectActivitiesScreen() {
                 <TouchableOpacity
                   className="bg-yellow-400 py-3 pl-8 pr-5 rounded-full flex-row items-center"
                   onPress={handleNextStep}
-                  disabled={selectedActivities.length === 0}
-                  style={selectedActivities.length === 0 ? { opacity: 0.5 } : {}}
                 >
                   <Text className="font-semibold text-xl mr-1">Next</Text>
                   <Feather name="chevron-right" size={22} color="black" />

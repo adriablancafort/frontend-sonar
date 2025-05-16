@@ -19,6 +19,7 @@ export interface Activity {
   id: number;
   title: string;
   image_uri: string;
+  dark_color: string;
 }
 
 // Swipes
