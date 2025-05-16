@@ -56,3 +56,11 @@ export interface Result {
   activity_uri: string;
   tags: string[];
 }
+
+// Results
+export interface Recap {
+  id: number;
+  title: string;
+  percent: number;
+  description: string;
+}
