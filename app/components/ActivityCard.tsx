@@ -15,7 +15,7 @@ const ActivityCard = ({ activity, selected, onPress }: ActivityCardProps) => {
   
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
-      toValue: 0.99,
+      toValue: 0.95,
       useNativeDriver: true,
     }).start();
   };
@@ -24,7 +24,7 @@ const ActivityCard = ({ activity, selected, onPress }: ActivityCardProps) => {
     Animated.spring(scaleAnim, {
       toValue: 1,
       useNativeDriver: true,
-      friction: 7,
+      friction: 4,
     }).start();
   };
 
@@ -62,7 +62,7 @@ const ActivityCard = ({ activity, selected, onPress }: ActivityCardProps) => {
         }}
       >
         {/* Activity Image */}
-        <View className={`w-16 h-16 rounded-full overflow-hidden mr-3 border-2 ${borderColor}`}>
+        <View className={`w-20 h-16 rounded-full overflow-hidden mr-3 border-2 ${borderColor}`}>
           <Image
             source={{ uri: activity.image_uri }}
             className="w-full h-full"

@@ -81,7 +81,7 @@ export default function ActivityCard({
   };
 
   return (
-    <View className="flex-1 relative w-full h-full bg-neutral-900">
+    <View className="flex-1 relative w-full h-full bg-neutral-900 rounded-full">
       {/* Background Video */}
       <Pressable onPress={handlePress} className="flex-1">
         <Video 
