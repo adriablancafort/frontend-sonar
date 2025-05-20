@@ -14,7 +14,7 @@ export default function SelectActivitiesScreen() {
   const [loading, setLoading] = useState(true);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [selectedActivities, setSelectedActivities] = useState<number[]>([]);
-  const [searchQuery, setSearchQuery] = useState('br');
+  const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
   const searchInputRef = useRef(null);
   const [keyboardStatus, setKeyboardStatus] = useState(false);
