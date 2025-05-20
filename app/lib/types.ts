@@ -61,6 +61,6 @@ export interface Result {
 export interface Recap {
   id: number;
   title: string;
-  percent: number;
-  description: string;
+  frase: string;
+  percentage: number;
 }
