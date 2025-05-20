@@ -111,23 +111,27 @@ export default function ViewResults() {
                 locations={[0, 0.2, 0.4, 0.8]}
                 style={{
                   position: 'absolute',
-                  height: 160,
+                  height: 130,
                   width: '100%',
                   bottom: 0
                 }}
               />
-            <TouchableOpacity 
-              className="bg-yellow-400 disabled:bg-neutral-500 py-3 pl-8 pr-5 rounded-full flex-row items-center"
-              onPress={handleNextStep}
-            >
-              <Text className="font-semibold text-xl mr-1">Next</Text>
-              <Feather name="chevron-right" size={22} color="black" />
-            </TouchableOpacity>
-
+              <View className="items-center pb-20 pt-2">
+                <TouchableOpacity
+                  className="bg-yellow-400 py-3 pl-8 pr-5 rounded-full flex-row items-center"
+                  onPress={handleNextStep}
+                >
+                  <Text className="font-semibold text-xl mr-1">Next</Text>
+                  <Feather name="chevron-right" size={22} color="black" />
+                </TouchableOpacity>
+              </View>
             </View>
+            
           </View>
+          
         )}
       </SafeAreaView>
+      
     </View>
   );
 }

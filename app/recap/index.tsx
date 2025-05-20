@@ -21,8 +21,6 @@ export default function ShowRecap() {
     }, []);
 
     return (
-
-
         <View className="items-center pb-20 pt-4">
             <Link href="/" asChild>
                 <TouchableOpacity className="bg-[#FFD700] py-3 px-6 rounded-full flex-row items-center shadow-lg">
