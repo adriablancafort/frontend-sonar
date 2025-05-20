@@ -17,7 +17,6 @@ export default function ShowRecap() {
     (async () => {
         const data = await getRecap();
         setRecap(data);
-        console.log(data)
         setLoading(false);
     })();
     }, []);
