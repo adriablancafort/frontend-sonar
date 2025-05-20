@@ -8,7 +8,7 @@ import {
   Animated,
   Dimensions
 } from 'react-native';
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
@@ -18,6 +18,7 @@ import { Result } from '@/app/lib/types';
 import { getResults } from '@/app/lib/api';
 
 export default function ViewResults() {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [results, setResults] = useState<Result[]>([]);
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -35,6 +36,10 @@ export default function ViewResults() {
       setLoading(false);
     })();
   }, []);
+
+  const handleNextStep = async () => {
+    router.push('/recap');
+  };
 
   return (
     <View className="flex-1 bg-black">
@@ -111,15 +116,14 @@ export default function ViewResults() {
                   bottom: 0
                 }}
               />
-              
-              <View className="items-center pb-20 pt-4">
-                <Link href="/" asChild>
-                  <TouchableOpacity className="bg-[#FFD700] py-3 px-6 rounded-full flex-row items-center shadow-lg">
-                    <Feather name="refresh-cw" size={20} color="#000" style={{ marginRight: 8 }} />
-                    <Text className="text-lg font-semibold text-black">Start Again</Text>
-                  </TouchableOpacity>
-                </Link>
-              </View>
+            <TouchableOpacity 
+              className="bg-yellow-400 disabled:bg-neutral-500 py-3 pl-8 pr-5 rounded-full flex-row items-center"
+              onPress={handleNextStep}
+            >
+              <Text className="font-semibold text-xl mr-1">Next</Text>
+              <Feather name="chevron-right" size={22} color="black" />
+            </TouchableOpacity>
+
             </View>
           </View>
         )}

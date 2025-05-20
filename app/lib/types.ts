@@ -57,7 +57,7 @@ export interface Result {
   tags: string[];
 }
 
-// Results
+// Recap
 export interface Recap {
   id: number;
   title: string;

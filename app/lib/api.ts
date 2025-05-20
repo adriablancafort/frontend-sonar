@@ -1,5 +1,5 @@
 import { readFromStorage, writeToStorage } from '@/app/lib/storage';
-import { ScheduleOption, TagOption, Activity, Swipe, Result } from '@/app/lib/types';
+import { ScheduleOption, TagOption, Activity, Swipe, Result, Recap } from '@/app/lib/types';
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL || '';
 const QUIZ_ID_KEY = 'quiz_id';
@@ -94,4 +94,8 @@ export async function submitSwipesResults(acceptedIds: number[], rejectedIds: nu
 
 export async function getResults(): Promise<Result[]> {
     return await apiRequest<Result[]>('/results', { includeQuizId: true });
+}
+
+export async function getRecap(): Promise<Recap[]> {
+    return await apiRequest<Recap[]>('/personalized-tags', { includeQuizId: true });
 }

@@ -15,7 +15,7 @@ const ActivityCard = ({ activity, selected, onPress }: ActivityCardProps) => {
   
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
-      toValue: 0.95,
+      toValue: 0.97,
       useNativeDriver: true,
     }).start();
   };
@@ -24,7 +24,7 @@ const ActivityCard = ({ activity, selected, onPress }: ActivityCardProps) => {
     Animated.spring(scaleAnim, {
       toValue: 1,
       useNativeDriver: true,
-      friction: 4,
+      friction: 10,
     }).start();
   };
 
