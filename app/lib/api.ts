@@ -97,5 +97,5 @@ export async function getResults(): Promise<Result[]> {
 }
 
 export async function getRecap(): Promise<Recap[]> {
-    return await apiRequest<Recap[]>('/personalized-tags', { includeQuizId: true });
+    return await apiRequest<Recap[]>('/recap', { includeQuizId: true });
 }
