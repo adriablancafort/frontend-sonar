@@ -69,7 +69,7 @@ export async function submitTagOptions(selectedIds: number[]): Promise<{ status:
 }
 
 export async function getActivities(): Promise<Activity[]> {
-    return await apiRequest<Activity[]>('/activities');
+    return await apiRequest<Activity[]>('/activities', { includeQuizId: true });
 }
 
 export async function submitEssentialActivities(selectedIds: number[]): Promise<{ status: string }> {
