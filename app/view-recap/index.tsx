@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter, Link } from 'expo-router'
 import { Feather } from '@expo/vector-icons';
@@ -21,34 +21,15 @@ export default function ShowRecap() {
     })();
     }, []);
 
-    return (
-        <>
-            {/* Gradient overlay and button */}
-            <View className="absolute bottom-0 left-0 right-0">
-                <LinearGradient
-                colors={[
-                    'rgba(0,0,0,0)',
-                    'rgba(0,0,0,1)'
-                ]}
-                locations={[0, 0.8]}
-                style={{
-                    position: 'absolute',
-                    height: 100,
-                    width: '100%',
-                    bottom: 0
-                }}
-                />
-                <View className="items-center pb-10 pt-2">
-                    <Link href="/" asChild>
-                        <TouchableOpacity className="bg-[#FFD700] py-3 px-6 rounded-full flex-row items-center shadow-lg">
-                            <Feather name="refresh-cw" size={20} color="#000" style={{ marginRight: 8 }} />
-                            <Text className="text-lg font-semibold text-black">Start Again</Text>
-                        </TouchableOpacity>
-                    </Link>
-                </View>
-            </View>
+    const handleNextStep = async () => {
+        router.push('/view-results');
+    };
 
-            <View className='flex-row items-center justify-between px-4 pt-20'>
+    return (
+        <>  
+            {/* Title */}
+
+            <View className="flex-row items-center px-4 absolute top-20 left-0 right-0 z-50">
                 <TouchableOpacity 
                     className="p-2"
                     onPress={() => router.back()}
@@ -56,11 +37,16 @@ export default function ShowRecap() {
                     <Feather name="chevron-left" size={28} color="white" />
                 </TouchableOpacity>
 
-                <View className='flex-1 px-4'>
-                    <Text className="text-white text-3xl font-bold text-center">Your profile</Text>
+                <View className="flex-1">
+                    <Text className="text-white text-3xl font-bold text-center">
+                        Your profile!
+                    </Text>
                 </View>
+
+                {/* Empty View for balanced spacing */}
+                <View style={{ width: 40 }} />
             </View>
-            
+
             <SafeAreaView className="flex-1">
                 {loading ? (
                     <View className="flex-1 justify-center items-center">
@@ -81,6 +67,20 @@ export default function ShowRecap() {
                                     index={index}
                                 />
                             ))}
+                        </View>
+
+                        {/* Gradient overlay and button */}
+                        <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 50 }}>
+                            
+                            <View className="items-center pb-20 pt-2">
+                                <TouchableOpacity
+                                    className="bg-yellow-400 py-3 pl-8 pr-5 rounded-full flex-row items-center"
+                                    onPress={handleNextStep}
+                                >
+                                    <Text className="font-semibold text-xl mr-1">Next</Text>
+                                    <Feather name="chevron-right" size={22} color="black" />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </>
                 )}
