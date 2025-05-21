@@ -54,9 +54,19 @@ export default function ShowRecap() {
                 </View>
             </View>
 
-            <View className='flex-row items-center justify-between px-4 pt-20'>
-                <View className='flex-1 px-4'>
-                    <Text className="text-white text-3xl font-bold text-center">Your profile</Text>
+            {/* Title */}
+            <View className="flex-row items-center px-4 absolute top-20 left-0 right-0 z-50">
+                <TouchableOpacity 
+                    className="p-2"
+                    onPress={() => router.back()}
+                >
+                    <Feather name="chevron-left" size={28} color="white" />
+                </TouchableOpacity>
+
+                <View className="flex-1">
+                    <Text className="text-white text-3xl font-bold text-center">
+                        Your profile!
+                    </Text>
                 </View>
 
                 {/* Empty View for balanced spacing */}
@@ -83,20 +93,6 @@ export default function ShowRecap() {
                                     index={index}
                                 />
                             ))}
-                        </View>
-
-                        {/* Gradient overlay and button */}
-                        <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 50 }}>
-                            
-                            <View className="items-center pb-20 pt-2">
-                                <TouchableOpacity
-                                    className="bg-yellow-400 py-3 pl-8 pr-5 rounded-full flex-row items-center"
-                                    onPress={handleNextStep}
-                                >
-                                    <Text className="font-semibold text-xl mr-1">Next</Text>
-                                    <Feather name="chevron-right" size={22} color="black" />
-                                </TouchableOpacity>
-                            </View>
                         </View>
                     </>
                 )}
