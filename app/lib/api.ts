@@ -92,10 +92,10 @@ export async function submitSwipesResults(acceptedIds: number[], rejectedIds: nu
     });
 }
 
-export async function getResults(): Promise<Result[]> {
-    return await apiRequest<Result[]>('/results', { includeQuizId: true });
-}
-
 export async function getRecap(): Promise<Recap[]> {
     return await apiRequest<Recap[]>('/recap', { includeQuizId: true });
+}
+
+export async function getResults(): Promise<Result[]> {
+    return await apiRequest<Result[]>('/results', { includeQuizId: true });
 }
