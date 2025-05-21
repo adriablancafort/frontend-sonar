@@ -13,9 +13,9 @@ interface ActivityCardProps {
   startTime?: string;
   endTime?: string;
   activityUri: string;
-  dominantColor?: string;
-  darkColor?: string;
-  pastelColor?: string;
+  dominantColor: string;
+  darkColor: string;
+  pastelColor: string;
   isMuted?: boolean;
   onToggleMute?: () => void;
 }
@@ -36,9 +36,9 @@ export default function ActivityCard({
   startTime,
   endTime,
   activityUri = "https://sonar.es/es/actividad/armin-van-buuren-b2b-indira-paganotto",
-  dominantColor = "#7a85ff",
-  darkColor = "#4a5bff",
-  pastelColor = "#a3b2ff",
+  dominantColor,
+  darkColor,
+  pastelColor,
   isMuted,
   onToggleMute,
 }: ActivityCardProps) {
