@@ -31,9 +31,9 @@ interface ResultsCardProps {
   startTime: string;
   endTime: string;
   schedule: string;
-  dominantColor?: string;
-  darkColor?: string;
-  pastelColor?: string;
+  dominantColor: string;
+  darkColor: string;
+  pastelColor: string;
   activityUri: string;
   tags: string[];
 }
@@ -45,11 +45,11 @@ export default function ResultsCard({
   startTime,
   endTime,
   schedule,
-  dominantColor = "#7a85ff", 
-  darkColor = "#282850",
-  pastelColor = "#b4b8ff",
-  activityUri = "https://sonar.es/es/actividad/alizzz-presents-conduccion-temeraria",
-  tags = ['ballena', 'música', 'intercon'],
+  dominantColor, 
+  darkColor,
+  pastelColor,
+  activityUri,
+  tags,
 }: ResultsCardProps) {
   const [expanded, setExpanded] = useState(false);
   const animatedScale = useRef(new Animated.Value(1)).current;

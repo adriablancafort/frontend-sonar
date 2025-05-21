@@ -14,7 +14,6 @@ export interface TagOption {
 }
 
 // Activities
-
 export interface Activity {
   id: number;
   title: string;
