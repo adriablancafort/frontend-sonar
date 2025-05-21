@@ -26,7 +26,26 @@ export default function ShowRecap() {
     };
 
     return (
-        <>
+        <>  
+            {/* Title */}
+            <View className="flex-row items-center px-4 absolute top-20 left-0 right-0 z-50">
+                <TouchableOpacity 
+                    className="p-2"
+                    onPress={() => router.back()}
+                >
+                    <Feather name="chevron-left" size={28} color="white" />
+                </TouchableOpacity>
+
+                <View className="flex-1">
+                    <Text className="text-white text-3xl font-bold text-center">
+                        Your profile!
+                    </Text>
+                </View>
+
+                {/* Empty View for balanced spacing */}
+                <View style={{ width: 40 }} />
+            </View>
+            
             {/* Gradient overlay and button */}
             <View className="absolute bottom-0 left-0 right-0 z-10">
                 <LinearGradient
@@ -52,25 +71,6 @@ export default function ShowRecap() {
                         </TouchableOpacity>
                     </Link>
                 </View>
-            </View>
-
-            {/* Title */}
-            <View className="flex-row items-center px-4 absolute top-20 left-0 right-0 z-50">
-                <TouchableOpacity 
-                    className="p-2"
-                    onPress={() => router.back()}
-                >
-                    <Feather name="chevron-left" size={28} color="white" />
-                </TouchableOpacity>
-
-                <View className="flex-1">
-                    <Text className="text-white text-3xl font-bold text-center">
-                        Your profile!
-                    </Text>
-                </View>
-
-                {/* Empty View for balanced spacing */}
-                <View style={{ width: 40 }} />
             </View>
 
             <SafeAreaView className="flex-1">
