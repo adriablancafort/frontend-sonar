@@ -84,7 +84,7 @@ export default function SelectActivities() {
     if (activities.length > 0 && currentIndex === activities.length) {
       (async () => {
         await submitSwipesResults(acceptedIds, rejectedIds);
-        router.push('/view-results');
+        router.push('/view-recap');
       })();
     }
   }, [activities.length, currentIndex, acceptedIds, rejectedIds, router]);

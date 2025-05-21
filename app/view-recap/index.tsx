@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, Pressable, ActivityIndicator, Linking, StyleSheet, SafeAreaView, LayoutAnimation, Platform, UIManager, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter, Link } from 'expo-router'
 import { Feather } from '@expo/vector-icons';
@@ -23,20 +23,10 @@ export default function ShowRecap() {
 
     return (
         <>
-            <View className='flex-row items-center justify-between px-4 pt-20'>
-                <TouchableOpacity 
-                    className="p-2"
-                    onPress={() => router.back()}
-                >
-                    <Feather name="chevron-left" size={28} color="white" />
-                </TouchableOpacity>
-
+            <View className='flex-row items-center justify-center px-4 pt-20'>
                 <View className='flex-1 px-4'>
-                    <Text className="text-white text-3xl font-bold text-center">What tells about you</Text>
+                    <Text className="text-white text-3xl font-bold text-center">Your profile</Text>
                 </View>
-                
-                {/* This empty view maintains balance in the flex row */}
-                <View className="w-10" />
             </View>
             
             <SafeAreaView className="flex-1">
@@ -77,10 +67,12 @@ export default function ShowRecap() {
                             }}
                             />
                             <View className="items-center pb-10 pt-2">
-                                <Link href="/" asChild>
-                                    <TouchableOpacity className="bg-[#FFD700] py-3 px-6 rounded-full flex-row items-center shadow-lg">
-                                        <Feather name="refresh-cw" size={20} color="#000" style={{ marginRight: 8 }} />
-                                        <Text className="text-lg font-semibold text-black">Start Again</Text>
+                                <Link href="/view-results" asChild>
+                                    <TouchableOpacity
+                                        className="bg-yellow-400 py-3 pl-8 pr-5 rounded-full flex-row items-center"
+                                    >
+                                        <Text className="font-semibold text-xl mr-1">View my schedule</Text>
+                                        <Feather name="chevron-right" size={22} color="black" />
                                     </TouchableOpacity>
                                 </Link>
                             </View>
