@@ -11,7 +11,7 @@ export default function ShowRecap() {
     const router = useRouter();
     const [recap, setRecap] = useState<Recap[]>([]);
     const [loading, setLoading] = useState(true);
-    const colors = ['#d87c2f', '#e0a269', '#a65f25']
+    const colors = ['#d87c2f', '#e0a269', '#a65f25'];
     
     useEffect(() => {
     (async () => {
@@ -24,6 +24,31 @@ export default function ShowRecap() {
 
     return (
         <>
+            {/* Gradient overlay and button */}
+            <View className="absolute bottom-0 left-0 right-0">
+                <LinearGradient
+                colors={[
+                    'rgba(0,0,0,0)',
+                    'rgba(0,0,0,1)'
+                ]}
+                locations={[0, 0.8]}
+                style={{
+                    position: 'absolute',
+                    height: 100,
+                    width: '100%',
+                    bottom: 0
+                }}
+                />
+                <View className="items-center pb-10 pt-2">
+                    <Link href="/" asChild>
+                        <TouchableOpacity className="bg-[#FFD700] py-3 px-6 rounded-full flex-row items-center shadow-lg">
+                            <Feather name="refresh-cw" size={20} color="#000" style={{ marginRight: 8 }} />
+                            <Text className="text-lg font-semibold text-black">Start Again</Text>
+                        </TouchableOpacity>
+                    </Link>
+                </View>
+            </View>
+
             <View className='flex-row items-center justify-between px-4 pt-20'>
                 <TouchableOpacity 
                     className="p-2"
@@ -47,7 +72,8 @@ export default function ShowRecap() {
                     </View>
                 ) : (
                     <>
-                        <SafeAreaView className="flex-1 mt-4">
+                        {/* Container for absolutely positioned cards */}
+                        <View style={styles.cardsContainer}>
                             {recap.map((item, index) => (
                                 <RecapCard
                                     key={item.id}
@@ -56,35 +82,9 @@ export default function ShowRecap() {
                                     frase={item.frase}
                                     color={colors[index % colors.length]}
                                     delay={index * 300}
+                                    index={index}
                                 />
                             ))}
-                        </SafeAreaView>
-
-                        <View className="items-center pb-20 pt-2">
-                            
-                        </View>
-                        <View className="absolute bottom-0 left-0 right-0">
-                            <LinearGradient
-                            colors={[
-                                'rgba(0,0,0,0)',
-                                'rgba(0,0,0,1)'
-                            ]}
-                            locations={[0, 0.8]}
-                            style={{
-                                position: 'absolute',
-                                height: 100,
-                                width: '100%',
-                                bottom: 0
-                            }}
-                            />
-                            <View className="items-center pb-10 pt-2">
-                                <Link href="/" asChild>
-                                    <TouchableOpacity className="bg-[#FFD700] py-3 px-6 rounded-full flex-row items-center shadow-lg">
-                                        <Feather name="refresh-cw" size={20} color="#000" style={{ marginRight: 8 }} />
-                                        <Text className="text-lg font-semibold text-black">Start Again</Text>
-                                    </TouchableOpacity>
-                                </Link>
-                            </View>
                         </View>
                     </>
                 )}
@@ -92,3 +92,11 @@ export default function ShowRecap() {
         </>
     )
 }
+
+const styles = StyleSheet.create({
+  cardsContainer: {
+    flex: 1,
+    position: 'relative',
+    marginTop: 16
+  }
+});
