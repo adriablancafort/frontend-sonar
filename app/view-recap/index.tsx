@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, Pressable, ActivityIndicator, Linking, StyleSheet, SafeAreaView, LayoutAnimation, Platform, UIManager, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter, Link } from 'expo-router'
 import { Feather } from '@expo/vector-icons';
@@ -17,7 +17,6 @@ export default function ShowRecap() {
     (async () => {
         const data = await getRecap();
         setRecap(data);
-        console.log(data)
         setLoading(false);
     })();
     }, []);
@@ -58,11 +57,8 @@ export default function ShowRecap() {
                 </TouchableOpacity>
 
                 <View className='flex-1 px-4'>
-                    <Text className="text-white text-3xl font-bold text-center">What tells about you</Text>
+                    <Text className="text-white text-3xl font-bold text-center">Your profile</Text>
                 </View>
-                
-                {/* This empty view maintains balance in the flex row */}
-                <View className="w-10" />
             </View>
             
             <SafeAreaView className="flex-1">
