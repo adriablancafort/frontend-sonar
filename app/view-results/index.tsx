@@ -95,15 +95,6 @@ export default function ViewResults() {
               <View className="h-[120px]" />
             </Animated.ScrollView>
 
-            <View className="items-center pb-10 pt-2">
-                <Link href="/" asChild>
-                    <TouchableOpacity className="bg-[#FFD700] py-3 px-6 rounded-full flex-row items-center shadow-lg">
-                        <Feather name="refresh-cw" size={20} color="#000" style={{ marginRight: 8 }} />
-                        <Text className="text-lg font-semibold text-black">Start Again</Text>
-                    </TouchableOpacity>
-                </Link>
-            </View>
-
             <View className="absolute bottom-0 left-0 right-0">
               <LinearGradient
                 colors={[
@@ -120,11 +111,18 @@ export default function ViewResults() {
                   bottom: 0
                 }}
               />
-              
             </View>
-            
+
+            <View className="absolute bottom-0 left-0 right-0 items-center pb-10 pt-2">
+              <Link href="/" asChild>
+                  <TouchableOpacity className="bg-yellow-400 py-3 px-6 rounded-full flex-row items-center shadow-lg">
+                      <Feather name="refresh-cw" size={20} color="#000" style={{ marginRight: 8 }} />
+                      <Text className="text-lg font-semibold text-black">Start Again</Text>
+                  </TouchableOpacity>
+              </Link>
+            </View>
+
           </View>
-          
         )}
       </SafeAreaView>
       

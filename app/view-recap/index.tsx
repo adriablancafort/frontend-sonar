@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ActivityIndicator, SafeAreaView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link, useRouter } from 'expo-router'
+import { Link } from 'expo-router'
 import { Feather } from '@expo/vector-icons';
 import { Recap } from '@/app/lib/types';
 import { getRecap } from '@/app/lib/api'; 
 import RecapCard from '@/app/components/RecapCard'
 
 export default function ShowRecap() {
-    const router = useRouter();
     const [recap, setRecap] = useState<Recap[]>([]);
     const [loading, setLoading] = useState(true);
     const colors = ['#d87c2f', '#e0a269', '#a65f25'];
@@ -21,21 +20,10 @@ export default function ShowRecap() {
     })();
     }, []);
 
-    const handleNextStep = async () => {
-        router.push('/view-results');
-    };
-
     return (
         <>  
             {/* Title */}
             <View className="flex-row items-center px-4 absolute top-20 left-0 right-0 z-50">
-                <TouchableOpacity 
-                    className="p-2"
-                    onPress={() => router.back()}
-                >
-                    <Feather name="chevron-left" size={28} color="white" />
-                </TouchableOpacity>
-
                 <View className="flex-1">
                     <Text className="text-white text-3xl font-bold text-center">
                         Your profile!
