@@ -64,7 +64,7 @@ export default function SelectActivitiesScreen() {
     if (selectedActivities.length > 0) {
       await submitEssentialActivities(selectedActivities);
     }
-    router.push('/swipes');
+    router.push('/pre-swipes');
   };
 
   const handleFocusSearch = () => {
