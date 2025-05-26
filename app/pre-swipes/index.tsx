@@ -11,7 +11,7 @@ export default function StartScreen() {
   useEffect(() => {
     Animated.timing(progress, {
       toValue: 1,
-      duration: 9000, // 9 seconds
+      duration: 10000, // 10 seconds
       easing: Easing.linear,
       useNativeDriver: false,
     }).start(() => {
@@ -44,19 +44,15 @@ export default function StartScreen() {
         Swipe through Activities
       </Text>
 
-      <Text className="text-center text-neutral-300 text-xl mb-12">
-        Now we will show you a list of activity videos and you will have to swipe right if you like it or left if you don't.
-      </Text>
-
-      <Text className="text-center text-neutral-300 text-xl mb-12">
-        Just like a dating app... just don't get youre exepectations there ;)
+      <Text className="text-center text-neutral-300 text-xl mb-32">
+        We'll show you short videos of different artists. Swipe right if you're interested, left if you're not - just like a dating app, but for concerts.
       </Text>
 
       <Link href="/swipes" asChild>
         <TouchableOpacity
           className="bg-yellow-400 py-3 pl-8 pr-5 rounded-full flex-row items-center mb-4 shadow-lg"
         >
-          <Text className="font-semibold text-xl mr-1 text-black">Match with the artists! </Text>
+          <Text className="font-semibold text-xl mr-1 text-black">Start Swiping</Text>
           <Feather name="chevron-right" size={22} color="black" />
         </TouchableOpacity>
       </Link>
