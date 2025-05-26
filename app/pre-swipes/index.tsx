@@ -11,7 +11,7 @@ export default function StartScreen() {
   useEffect(() => {
     Animated.timing(progress, {
       toValue: 1,
-      duration: 10000, // 10 seconds
+      duration: 9000, // 9 seconds
       easing: Easing.linear,
       useNativeDriver: false,
     }).start(() => {
@@ -19,7 +19,6 @@ export default function StartScreen() {
     });
   }, []);
 
-  // Interpolate width from 0 to 100%
   const widthInterpolated = progress.interpolate({
     inputRange: [0, 1],
     outputRange: ['0%', '100%'],
@@ -36,7 +35,7 @@ export default function StartScreen() {
           top: statusBarOffset,
           left: 0,
           height: 4,
-          backgroundColor: '#facc15', // Tailwind's yellow-400
+          backgroundColor: '#facc15',
           width: widthInterpolated,
         }}
       />
@@ -49,11 +48,15 @@ export default function StartScreen() {
         Now we will show you a list of activity videos and you will have to swipe right if you like it or left if you don't.
       </Text>
 
+      <Text className="text-center text-neutral-300 text-xl mb-12">
+        Just like a dating app... just don't get youre exepectations there ;)
+      </Text>
+
       <Link href="/swipes" asChild>
         <TouchableOpacity
           className="bg-yellow-400 py-3 pl-8 pr-5 rounded-full flex-row items-center mb-4 shadow-lg"
         >
-          <Text className="font-semibold text-xl mr-1 text-black">Swipe</Text>
+          <Text className="font-semibold text-xl mr-1 text-black">Match with the artists! </Text>
           <Feather name="chevron-right" size={22} color="black" />
         </TouchableOpacity>
       </Link>
