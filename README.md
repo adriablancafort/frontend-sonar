@@ -93,8 +93,8 @@ Make sure you have the following installed:
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/adriablancafort/frontend-sonar.git
-   cd frontend-sonar
+   git clone https://github.com/adriablancafort/mysonar-app.git
+   cd mysonar-app
    ```
 
 2. Install dependencies
@@ -103,7 +103,14 @@ Make sure you have the following installed:
    npm install
    ```
 
-3. Start the development server
+3. Create environment configuration
+
+   Create a `.env` file in the root directory and add:
+   ```
+   EXPO_PUBLIC_API_URL=your_api_url_here
+   ```
+
+4. Start the development server
 
    ```bash
    npx expo start
