@@ -4,6 +4,26 @@ Welcome to the **frontend codebase** of **MySonar**, a mobile application design
 
 At Sónar, multiple stages and events happen simultaneously, often featuring lesser-known or highly experimental artists. This can lead to uncertainty or decision fatigue among festival-goers. **MySonar aims to reduce that anxiety** by offering a tailored, user-friendly experience to guide people through the festival in a more informed and relaxed way.
 
+<img width="374" alt="Screenshot 2025-05-30 at 10 58 05" src="https://github.com/user-attachments/assets/6c1403a7-4df9-4baf-8cd4-78a97e0ee0d7" />
+
+<img width="373" alt="Screenshot 2025-05-30 at 10 58 35" src="https://github.com/user-attachments/assets/0af5f10f-c221-4903-831c-ddde1e7e7d3a" />
+
+<img width="374" alt="Screenshot 2025-05-30 at 10 58 57" src="https://github.com/user-attachments/assets/133b3670-50d1-4a9a-b4fe-01bfdd3f782e" />
+
+<img width="375" alt="Screenshot 2025-05-30 at 11 00 01" src="https://github.com/user-attachments/assets/4e0abd86-02ec-4265-995a-3fad7fb58ced" />
+
+<img width="375" alt="Screenshot 2025-05-30 at 11 00 11" src="https://github.com/user-attachments/assets/57a253d5-d31d-44cb-b87d-a5343a4d32b9" />
+
+<img width="375" alt="Screenshot 2025-05-30 at 11 02 30" src="https://github.com/user-attachments/assets/e58ee75a-d65c-486c-8ed2-18a30c9886ee" />
+
+<img width="375" alt="Screenshot 2025-05-30 at 11 02 50" src="https://github.com/user-attachments/assets/5114ce48-9325-44ba-8ffb-965ad476d23e" />
+
+<img width="375" alt="Screenshot 2025-05-30 at 11 00 47" src="https://github.com/user-attachments/assets/05fcfe1c-9966-4f2c-b7ba-71ad93a6a130" />
+
+<img width="375" alt="Screenshot 2025-05-30 at 11 03 48" src="https://github.com/user-attachments/assets/044288d9-75c3-4577-a9d8-91b11f4929cd" />
+
+<img width="375" alt="Screenshot 2025-05-30 at 11 04 53" src="https://github.com/user-attachments/assets/499b20b6-53fd-471a-bd77-061d958b8915" />
+
 ---
 
 ## 📱 Application Access
