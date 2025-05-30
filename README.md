@@ -2,7 +2,7 @@
 
 **MySonar** is a Mobile Application designed to enhance the experience of Sónar Festival attendees through personalized schedule recommendations tailored to each user's musical tastes and attendance preferences.
 
-This repository contains the code of the Mobile App. If you are interested in the algorithms and logic behind it, check out the [Backend API repository](https://github.com/adriablancafort/mysonar-api).
+This repository only contains the code of the Mobile App. If you are interested in the algorithms and logic behind it, check out the [Backend API repository](https://github.com/adriablancafort/mysonar-api).
 
 ### The Challenge
 
